@@ -1,4 +1,3 @@
-require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const { MercadoPagoConfig, Preference, Payment } = require('mercadopago');
@@ -7,17 +6,27 @@ const path = require('path');
 
 const app = express();
 
-// Configurações básicas
+// --- CONFIGURAÇÕES JÁ PRONTAS ---
+// Seu Link do Banco de Dados (Com a senha 301099 já inserida):
+const MONGO_URI = "mongodb+srv://admin:301099@workshopinsiderei.i3uuhb8.mongodb.net/?retryWrites=true&w=majority&appName=WorkshopInsideREI";
+
+// Sua Chave do Mercado Pago:
+const MP_ACCESS_TOKEN = "APP_USR-2074265484142019-013011-8b52e8fe3013271ea3d7eba876ed29eb-35115214";
+
+// Seu Site no Render (Sem a barra no final):
+const MEU_SITE = "https://workshop-insiderei26.onrender.com";
+// --------------------------------
+
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname))); // Serve seus arquivos HTML/CSS atuais
+app.use(express.static(path.join(__dirname)));
 
-// Conexão MongoDB
-mongoose.connect(process.env.MONGO_URI)
-    .then(() => console.log('✅ MongoDB Conectado!'))
-    .catch(err => console.error('❌ Erro MongoDB:', err));
+// Conexão com MongoDB
+mongoose.connect(MONGO_URI)
+    .then(() => console.log('✅ Conectado ao MongoDB com Sucesso!'))
+    .catch(err => console.error('❌ Erro ao conectar no MongoDB:', err));
 
-// Modelo do Usuário (Seus dados)
+// Modelo do Usuário (Ingresso)
 const UserSchema = new mongoose.Schema({
     email: String,
     data_pagamento: { type: Date, default: Date.now },
@@ -27,53 +36,50 @@ const UserSchema = new mongoose.Schema({
 });
 const User = mongoose.model('User', UserSchema);
 
-// Mercado Pago Config
-const client = new MercadoPagoConfig({ accessToken: process.env.MP_ACCESS_TOKEN });
+// Configuração do Mercado Pago
+const client = new MercadoPagoConfig({ accessToken: MP_ACCESS_TOKEN });
 
-// 1. ROTA DE PAGAMENTO (Fixa o preço em 149)
+// ROTA 1: CRIAR PAGAMENTO (Preço R$ 149,00)
 app.post('/process_payment', async (req, res) => {
     try {
         const { email } = req.body;
         
-        // Cria usuário pendente
-        const newUser = await User.create({ 
-            email, 
-            valor: 149.00, // Forçando o valor correto aqui
-            status: 'pending' 
-        });
+        // Salva usuário pendente no banco
+        const newUser = await User.create({ email, valor: 149, status: 'pending' });
 
-        // Cria preferência no Mercado Pago
+        // Cria preferência de pagamento
         const preference = new Preference(client);
         const result = await preference.create({
             body: {
                 items: [{
-                    title: 'Workshop InsideREI26 - SP',
+                    title: 'Workshop InsideREI26 - Ingresso Presencial',
                     quantity: 1,
-                    unit_price: 149.00, // Valor real
+                    unit_price: 149,
                     currency_id: 'BRL',
                 }],
                 payer: { email: email },
-                external_reference: newUser._id.toString(), // ID para o Webhook achar depois
+                external_reference: newUser._id.toString(),
                 back_urls: {
-                    success: `${process.env.RENDER_EXTERNAL_URL}/dashboard.html`, // Manda pro painel ou sucesso
-                    failure: `${process.env.RENDER_EXTERNAL_URL}/`,
-                    pending: `${process.env.RENDER_EXTERNAL_URL}/`
+                    success: `${MEU_SITE}/dashboard.html`,
+                    failure: `${MEU_SITE}/`,
+                    pending: `${MEU_SITE}/`
                 },
                 auto_return: 'approved',
-                notification_url: `${process.env.RENDER_EXTERNAL_URL}/webhook`
+                notification_url: `${MEU_SITE}/webhook`
             }
         });
 
         res.json({ id: result.id, init_point: result.init_point });
     } catch (error) {
         console.error(error);
-        res.status(500).send("Erro ao processar");
+        res.status(500).send("Erro ao gerar pagamento");
     }
 });
 
-// 2. ROTA DO WEBHOOK (Aprova o pagamento)
+// ROTA 2: WEBHOOK (Aprova o pagamento automaticamente)
 app.post('/webhook', async (req, res) => {
     const { action, data } = req.body;
+    
     if (action === 'payment.created' || action === 'payment.updated') {
         try {
             const payment = new Payment(client);
@@ -81,19 +87,19 @@ app.post('/webhook', async (req, res) => {
             
             if (paymentInfo.status === 'approved') {
                 await User.findByIdAndUpdate(paymentInfo.external_reference, { 
-                    status: 'approved',
+                    status: 'approved', 
                     payment_id: data.id 
                 });
-                console.log(`✅ Pagamento aprovado para: ${paymentInfo.external_reference}`);
+                console.log(`✅ Pagamento APROVADO para: ${paymentInfo.external_reference}`);
             }
         } catch (error) {
-            console.error("Erro webhook:", error);
+            console.error("Erro no Webhook:", error);
         }
     }
     res.sendStatus(200);
 });
 
-// 3. ROTA DO PAINEL ADMIN (Para carregar a lista)
+// ROTA 3: PAINEL ADMIN (Lista de Inscritos)
 app.get('/users', async (req, res) => {
     try {
         const users = await User.find().sort({ data_pagamento: -1 });
