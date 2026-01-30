@@ -6,7 +6,7 @@ const path = require('path');
 
 const app = express();
 
-// --- SUAS SENHAS ---
+// --- SUAS CREDENCIAIS ---
 const MONGO_URI = "mongodb+srv://admin:301099@workshopinsiderei.i3uuhb8.mongodb.net/?retryWrites=true&w=majority&appName=WorkshopInsideREI";
 const MP_ACCESS_TOKEN = "APP_USR-2074265484142019-013011-8b52e8fe3013271ea3d7eba876ed29eb-35115214";
 const MEU_SITE = "https://workshop-insiderei26.onrender.com"; 
@@ -19,10 +19,11 @@ mongoose.connect(MONGO_URI)
     .then(() => console.log('✅ MongoDB Conectado!'))
     .catch(err => console.error('❌ Erro MongoDB:', err));
 
-// Modelo compatível com seu Admin.html
+// Modelo de Usuário ATUALIZADO (Com senha e telefone)
 const UserSchema = new mongoose.Schema({
-    nome: { type: String, default: 'Participante' },
-    email: String,
+    nome: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    senha: { type: String, required: true }, // Agora salvamos a senha
     telefone: String,
     data_pagamento: { type: Date, default: Date.now },
     payment_id: String,
@@ -37,24 +38,85 @@ const User = mongoose.model('User', UserSchema);
 
 const client = new MercadoPagoConfig({ accessToken: MP_ACCESS_TOKEN });
 
-// Rota de Pagamento
+// --- ROTA DE REGISTRO (CRIAR CONTA) ---
+app.post('/register', async (req, res) => {
+    try {
+        const { nome, email, senha, telefone } = req.body;
+        
+        // Verifica se já existe
+        const userExists = await User.findOne({ email });
+        if (userExists) {
+            return res.status(400).json({ error: "E-mail já cadastrado!" });
+        }
+
+        // Cria o usuário
+        const newUser = await User.create({
+            nome,
+            email,
+            senha, // Em produção real, deveríamos criptografar isso
+            telefone,
+            valor: 0, // Começa com 0 até pagar
+            ticket: { status: 'pending', hash: 'AGUARDANDO', used: false }
+        });
+
+        res.json({ 
+            success: true, 
+            userId: newUser._id, 
+            nome: newUser.nome, 
+            email: newUser.email 
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Erro ao criar conta" });
+    }
+});
+
+// --- ROTA DE LOGIN (ENTRAR) ---
+app.post('/login', async (req, res) => {
+    try {
+        const { email, senha } = req.body;
+        
+        // Busca usuário
+        const user = await User.findOne({ email });
+        
+        // Verifica se existe e se a senha bate
+        if (!user || user.senha !== senha) {
+            return res.status(401).json({ error: "E-mail ou senha incorretos" });
+        }
+
+        res.json({ 
+            success: true, 
+            userId: user._id, 
+            nome: user.nome, 
+            email: user.email 
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Erro no servidor" });
+    }
+});
+
+// --- ROTA DE PAGAMENTO ---
 app.post('/process_payment', async (req, res) => {
     try {
         const { email } = req.body;
-        const newUser = await User.create({ 
-            email, 
-            valor: 149, 
-            ticket: { status: 'pending', hash: 'AGUARDANDO', used: false }
-        });
+        
+        // Tenta achar o usuário existente, ou cria um temporário
+        let user = await User.findOne({ email });
+        if (!user) {
+            user = await User.create({ email, nome: 'Visitante', senha: 'pix', valor: 149 });
+        }
 
         const preference = new Preference(client);
         const result = await preference.create({
             body: {
                 items: [{ title: 'Workshop InsideREI26', quantity: 1, unit_price: 149, currency_id: 'BRL' }],
                 payer: { email: email },
-                external_reference: newUser._id.toString(),
+                external_reference: user._id.toString(),
                 back_urls: {
-                    success: `${MEU_SITE}/admin.html`,
+                    success: `${MEU_SITE}/dashboard.html`,
                     failure: `${MEU_SITE}/`,
                     pending: `${MEU_SITE}/`
                 },
@@ -69,7 +131,7 @@ app.post('/process_payment', async (req, res) => {
     }
 });
 
-// Webhook
+// --- WEBHOOK ---
 app.post('/webhook', async (req, res) => {
     const { action, data } = req.body;
     if (action === 'payment.created' || action === 'payment.updated') {
@@ -81,7 +143,8 @@ app.post('/webhook', async (req, res) => {
                 await User.findByIdAndUpdate(info.external_reference, { 
                     'ticket.status': 'approved',
                     'ticket.hash': codigoVIP,
-                    payment_id: data.id 
+                    payment_id: data.id,
+                    valor: 149
                 });
             }
         } catch (e) { console.error(e); }
@@ -89,12 +152,15 @@ app.post('/webhook', async (req, res) => {
     res.sendStatus(200);
 });
 
-// ROTAS DO ADMIN (NECESSÁRIAS PARA O PAINEL)
+// --- ROTAS DO ADMIN ---
 app.get('/admin/users', async (req, res) => {
     const users = await User.find().sort({ data_pagamento: -1 });
     res.json(users);
 });
-
+app.get('/users', async (req, res) => { // Rota extra de compatibilidade
+    const users = await User.find().sort({ data_pagamento: -1 });
+    res.json(users);
+});
 app.post('/admin/toggle-checkin/:id', async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
