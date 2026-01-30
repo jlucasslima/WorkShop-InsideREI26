@@ -2,108 +2,140 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Área do Aluno</title>
+    <title>Minha Área - Workshop VIP</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        .dash-container { max-width: 600px; margin: 80px auto; padding: 20px; color: white; }
-        .status-card { background: #112240; padding: 40px; border-radius: 16px; text-align: center; border: 1px solid rgba(255,255,255,0.05); }
-        .ticket-approved { border: 2px solid #64ffda; background: rgba(100, 255, 218, 0.1); padding: 30px; border-radius: 12px; }
-        .welcome-title { font-size: 2rem; color: var(--white); margin-bottom: 10px; }
-        .welcome-sub { color: var(--text-dim); margin-bottom: 40px; }
-        .btn-buy {
-            background-color: #009ee3; color: white; font-weight: bold; padding: 15px 30px; border: none; border-radius: 8px; cursor: pointer; font-size: 1.1rem; transition: 0.3s; display: inline-flex; align-items: center; gap: 10px;
+        .dashboard-container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: #0a192f;
+            border: 1px solid #c5a059;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-        .btn-buy:hover { background-color: #007eb5; transform: translateY(-2px); }
-        .btn-refresh { background-color: #64ffda; color: #020c1b; }
-        .btn-refresh:hover { background-color: #4cdbb3; }
+        .status-badge {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            margin: 20px 0;
+            text-transform: uppercase;
+        }
+        .pending { background: rgba(255, 165, 0, 0.2); color: orange; border: 1px solid orange; }
+        .approved { background: rgba(0, 184, 148, 0.2); color: #00b894; border: 1px solid #00b894; }
+        
+        .ticket-code {
+            font-size: 2rem;
+            color: #c5a059;
+            font-weight: 800;
+            letter-spacing: 2px;
+            margin: 20px 0;
+            border: 2px dashed #c5a059;
+            padding: 20px;
+        }
+
+        .btn-pay {
+            background: #c5a059;
+            color: #020c1b;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .btn-pay:hover { background: #e0bc75; }
+        .hidden { display: none; }
     </style>
 </head>
 <body class="login-body">
-    <div class="dash-container">
-        <h1 id="welcome-msg" class="welcome-title">Olá!</h1>
-        <p class="welcome-sub">Bem-vindo à sua área exclusiva.</p>
-        <div id="content-area" class="status-card">
-            <p style="color: var(--gold);">Carregando status...</p>
+
+    <div class="dashboard-container">
+        <h1 id="user-name">Carregando...</h1>
+        
+        <div id="section-pending" class="hidden">
+            <div class="status-badge pending">Aguardando Pagamento</div>
+            <p style="color: #8892b0;">Você está quase lá! Garanta sua vaga agora.</p>
+            <p style="font-size: 1.5rem; font-weight: bold;">R$ 149,00</p>
+            <button onclick="pagarAgora()" class="btn-pay">PAGAR AGORA</button>
         </div>
+
+        <div id="section-approved" class="hidden">
+            <div class="status-badge approved">Ingresso Confirmado</div>
+            <p style="color: #8892b0;">Apresente este código na portaria:</p>
+            
+            <div class="ticket-code" id="ticket-hash">...</div>
+            
+            <p style="font-size: 0.9rem; color: #8892b0;">Um e-mail de confirmação também foi enviado.</p>
+        </div>
+
+        <div id="error-msg" style="color: #ff5f5f; margin-top: 20px;" class="hidden"></div>
     </div>
 
     <script>
-        const userId = localStorage.getItem('userId');
-        if (!userId) window.location.href = 'login.html';
+        // Pega dados do localStorage (salvos no login)
+        const email = localStorage.getItem('userEmail');
+        const nome = localStorage.getItem('userName');
 
-        document.getElementById('welcome-msg').innerText = `Olá, ${localStorage.getItem('userName') || 'Aluno'}!`;
+        if (!email) {
+            window.location.href = 'login.html'; // Se não tiver logado, manda pro login
+        } else {
+            document.getElementById('user-name').innerText = `Olá, ${nome || 'Visitante'}!`;
+            carregarStatus();
+        }
 
-        async function carregarDados() {
+        async function carregarStatus() {
             try {
-                const res = await fetch(`http://localhost:3000/me/${userId}`);
+                // Chama a rota que criei no server.js
+                const res = await fetch(`/my-ticket?email=${email}`);
+                
+                if (!res.ok) throw new Error('Erro ao buscar dados');
+                
                 const user = await res.json();
-                const area = document.getElementById('content-area');
+                
+                // Verifica o status do ticket
+                const status = user.ticket ? user.ticket.status : 'pending';
 
-                if (user.ticket && user.ticket.status === 'approved') {
-                    area.innerHTML = `
-                        <div class="ticket-approved">
-                            <h2 style="color: #64ffda; margin-top:0;">🎉 INGRESSO CONFIRMADO</h2>
-                            <p style="color: #ccd6f6; margin-top: 20px;">Seu Código de Acesso:</p>
-                            <h1 style="color: #fff; font-size: 4rem; margin: 10px 0; letter-spacing: 5px;">${user.ticket.hash}</h1>
-                            <p style="color: #8892b0;">Data da compra: ${new Date(user.ticket.date).toLocaleDateString()}</p>
-                            <p style="color: #64ffda; font-size: 0.9rem; margin-top: 20px;">Tire um print desta tela!</p>
-                        </div>
-                    `;
+                if (status === 'approved') {
+                    document.getElementById('section-approved').classList.remove('hidden');
+                    document.getElementById('ticket-hash').innerText = user.ticket.hash;
                 } else {
-                    area.innerHTML = `
-                        <h2>Finalize sua Inscrição</h2>
-                        <p style="color: var(--text-dim);">Garanta seu acesso ao Workshop VIP 2026.</p>
-                        <br>
-                        <div id="payment-box">
-                            <h1 style="color: var(--gold); font-size: 3rem; margin: 20px 0;">R$ 149,00</h1>
-                            <button onclick="comprarIngresso()" class="btn-buy" id="btn-pagar">💳 PAGAR COM MERCADO PAGO</button>
-                            <p style="font-size: 0.8rem; color: #8892b0; margin-top: 15px;">Pix, Cartão de Crédito ou Boleto.</p>
-                        </div>
-                    `;
+                    document.getElementById('section-pending').classList.remove('hidden');
                 }
-            } catch (error) {
-                console.error("Erro ao carregar:", error);
-                document.getElementById('content-area').innerHTML = "<p style='color:red'>Erro ao conectar com o servidor.</p>";
+
+            } catch (err) {
+                console.error(err);
+                const errorDiv = document.getElementById('error-msg');
+                errorDiv.innerText = "Erro ao conectar com o servidor. Tente recarregar.";
+                errorDiv.classList.remove('hidden');
             }
         }
 
-        async function comprarIngresso() {
-            const btn = document.getElementById('btn-pagar');
-            const textoOriginal = btn.innerHTML;
-            btn.innerHTML = "⏳ Gerando Link...";
+        async function pagarAgora() {
+            const btn = document.querySelector('.btn-pay');
+            btn.innerText = "Processando...";
             btn.disabled = true;
 
             try {
-                // ALTERADO O VALOR PARA 149.00
-                const res = await fetch('http://localhost:3000/process_payment', {
+                const res = await fetch('/process_payment', {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ userId, preco: 149.00 })
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: email })
                 });
-                
                 const data = await res.json();
-
-                if (data.link) {
-                    window.open(data.link, '_blank');
-                    btn.innerHTML = "🔄 JÁ PAGUEI (ATUALIZAR)";
-                    btn.classList.add('btn-refresh');
-                    btn.disabled = false;
-                    btn.onclick = function() { location.reload(); };
-                } else {
-                    alert("Erro ao gerar link de pagamento.");
-                    btn.innerHTML = textoOriginal;
-                    btn.disabled = false;
-                }
-            } catch (error) {
-                console.error(error);
-                alert("Erro de conexão.");
-                btn.innerHTML = textoOriginal;
+                if (data.init_point) window.location.href = data.init_point;
+            } catch (err) {
+                alert('Erro ao gerar pagamento.');
+                btn.innerText = "PAGAR AGORA";
                 btn.disabled = false;
             }
         }
-
-        carregarDados();
     </script>
 </body>
 </html>
