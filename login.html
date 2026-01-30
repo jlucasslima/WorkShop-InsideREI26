@@ -45,27 +45,41 @@
         }
 
         async function handleAuth(url, data) {
-            const res = await fetch(`http://localhost:3000${url}`, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(data)
-            });
-            const result = await res.json();
-            
-            if (res.ok) {
-                // SALVA OS DADOS NO NAVEGADOR
-                localStorage.setItem('userId', result.userId);
-                localStorage.setItem('userName', result.nome);
-                localStorage.setItem('userEmail', result.email); // Salva o email para validar o admin
+            const btn = document.querySelector('button[type="submit"]');
+            const originalText = btn.innerText;
+            btn.innerText = "Carregando...";
+            btn.disabled = true;
 
-                // REDIRECIONAMENTO INTELIGENTE
-                if (result.email === 'jlucas2140@gmail.com') {
-                    window.location.href = 'admin.html';
+            try {
+                // CORREÇÃO: Removemos o http://localhost:3000 para funcionar no Render
+                const res = await fetch(url, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(data)
+                });
+                const result = await res.json();
+                
+                if (res.ok) {
+                    // SALVA OS DADOS NO NAVEGADOR
+                    localStorage.setItem('userId', result.userId);
+                    localStorage.setItem('userName', result.nome);
+                    localStorage.setItem('userEmail', result.email);
+
+                    // REDIRECIONAMENTO
+                    if (result.email === 'jlucas2140@gmail.com') {
+                        window.location.href = 'admin.html';
+                    } else {
+                        window.location.href = 'dashboard.html';
+                    }
                 } else {
-                    window.location.href = 'dashboard.html';
+                    alert(result.error || 'Erro ao processar');
                 }
-            } else {
-                alert(result.error || 'Erro ao processar');
+            } catch (error) {
+                console.error(error);
+                alert('Erro de conexão com o servidor.');
+            } finally {
+                btn.innerText = originalText;
+                btn.disabled = false;
             }
         }
 
