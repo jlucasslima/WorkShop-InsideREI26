@@ -220,3 +220,4 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`🚀 Servidor Rodando na porta ${PORT}`));
 
 // Versão Final Agora Vai 2.0
+
