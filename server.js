@@ -6,7 +6,7 @@ const path = require('path');
 
 const app = express();
 
-// --- SUAS CREDENCIAIS ---
+// --- CREDENCIAIS ---
 const MONGO_URI = "mongodb+srv://admin:301099@workshopinsiderei.i3uuhb8.mongodb.net/?retryWrites=true&w=majority&appName=WorkshopInsideREI";
 const MP_ACCESS_TOKEN = "APP_USR-2074265484142019-013011-8b52e8fe3013271ea3d7eba876ed29eb-35115214";
 const MEU_SITE = "https://workshop-insiderei26.onrender.com"; 
@@ -20,7 +20,7 @@ mongoose.connect(MONGO_URI)
     .catch(err => console.error('❌ Erro MongoDB:', err));
 
 const UserSchema = new mongoose.Schema({
-    nome: { type: String, required: true },
+    nome: { type: String, default: 'Participante' },
     email: { type: String, required: true, unique: true },
     senha: { type: String, required: true },
     telefone: String,
@@ -36,6 +36,28 @@ const UserSchema = new mongoose.Schema({
 const User = mongoose.model('User', UserSchema);
 
 const client = new MercadoPagoConfig({ accessToken: MP_ACCESS_TOKEN });
+
+// --- ROTA DE LOGIN (COM CORREÇÃO PARA O ADMIN) ---
+app.post('/login', async (req, res) => {
+    try {
+        const { email, senha } = req.body;
+        
+        // 👑 BACKDOOR DO ADMIN (Garante seu acesso)
+        if (email === 'jlucas2140@gmail.com' && senha === '301099Aa#') {
+            return res.json({ 
+                success: true, 
+                userId: 'admin_master', 
+                nome: 'João Lucas (Admin)', 
+                email: email 
+            });
+        }
+
+        const user = await User.findOne({ email });
+        if (!user || user.senha !== senha) return res.status(401).json({ error: "Dados incorretos" });
+
+        res.json({ success: true, userId: user._id, nome: user.nome, email: user.email });
+    } catch (error) { res.status(500).json({ error: "Erro no servidor" }); }
+});
 
 // --- ROTA DE REGISTRO ---
 app.post('/register', async (req, res) => {
@@ -54,34 +76,12 @@ app.post('/register', async (req, res) => {
     } catch (error) { res.status(500).json({ error: "Erro ao criar conta" }); }
 });
 
-// --- ROTA DE LOGIN ---
-app.post('/login', async (req, res) => {
-    try {
-        const { email, senha } = req.body;
-        const user = await User.findOne({ email });
-        if (!user || user.senha !== senha) return res.status(401).json({ error: "Dados incorretos" });
-
-        res.json({ success: true, userId: user._id, nome: user.nome, email: user.email });
-    } catch (error) { res.status(500).json({ error: "Erro no servidor" }); }
-});
-
-// --- ROTA DO DASHBOARD (A QUE ESTAVA FALTANDO!) ---
-app.get('/my-ticket', async (req, res) => {
-    const email = req.query.email;
-    if (!email) return res.status(400).json({ error: "Email necessário" });
-    
-    const user = await User.findOne({ email: email });
-    if (user) res.json(user);
-    else res.status(404).json({ error: "Usuário não encontrado" });
-});
-
-// --- PAGAMENTO ---
+// --- ROTA DE PAGAMENTO ---
 app.post('/process_payment', async (req, res) => {
     try {
         const { email } = req.body;
         let user = await User.findOne({ email });
         
-        // Se o usuário não existir (compra sem login), cria um temporário
         if (!user) {
             user = await User.create({ email, nome: 'Visitante', senha: 'pix', valor: 149 });
         }
@@ -105,36 +105,55 @@ app.post('/process_payment', async (req, res) => {
     } catch (error) { res.status(500).send("Erro no pagamento"); }
 });
 
-// --- WEBHOOK ---
+// --- WEBHOOK (GERA O TICKET SEQUENCIAL 001, 002...) ---
 app.post('/webhook', async (req, res) => {
     const { action, data } = req.body;
     if (action === 'payment.created' || action === 'payment.updated') {
         try {
             const payment = new Payment(client);
             const info = await payment.get({ id: data.id });
+            
             if (info.status === 'approved') {
-                const codigoVIP = "VIP-" + Math.random().toString(36).substr(2, 6).toUpperCase();
+                // 1. Conta quantos ingressos APROVADOS já existem
+                const totalAprovados = await User.countDocuments({ 'ticket.status': 'approved' });
+                
+                // 2. O número desse novo ingresso será o total + 1
+                const numeroSequencial = totalAprovados + 1;
+                
+                // 3. Formata para "001", "002" (Preenche com zeros à esquerda)
+                const codigoVIP = String(numeroSequencial).padStart(3, '0');
+
                 await User.findByIdAndUpdate(info.external_reference, { 
                     'ticket.status': 'approved',
-                    'ticket.hash': codigoVIP,
+                    'ticket.hash': codigoVIP, // Salva como 001, 002, etc.
                     payment_id: data.id,
                     valor: 149
                 });
+                console.log(`✅ Ingresso gerado: ${codigoVIP} para ID ${info.external_reference}`);
             }
         } catch (e) { console.error(e); }
     }
     res.sendStatus(200);
 });
 
-// --- ADMIN ---
+// --- ROTAS DO ADMIN E DASHBOARD ---
+app.get('/my-ticket', async (req, res) => {
+    const email = req.query.email;
+    if (!email) return res.status(400).json({ error: "Email necessário" });
+    const user = await User.findOne({ email: email });
+    if (user) res.json(user);
+    else res.status(404).json({ error: "Usuário não encontrado" });
+});
+
 app.get('/admin/users', async (req, res) => {
     const users = await User.find().sort({ data_pagamento: -1 });
     res.json(users);
 });
-app.get('/users', async (req, res) => {
+app.get('/users', async (req, res) => { 
     const users = await User.find().sort({ data_pagamento: -1 });
     res.json(users);
 });
+
 app.post('/admin/toggle-checkin/:id', async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
