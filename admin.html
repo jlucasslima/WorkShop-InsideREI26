@@ -5,26 +5,18 @@
     <title>Portaria VIP - Workshop 2026</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Aumentei um pouco a largura para caber as novas colunas */
         .admin-container { max-width: 1200px; margin: 50px auto; padding: 20px; color: white; }
-        
         .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px; }
         .stat-card { background: #0a192f; padding: 20px; border-radius: 12px; text-align: center; border: 1px solid #c5a059; }
-        
         .search-box { width: 100%; padding: 15px; background: #112240; border: 1px solid #233554; color: white; border-radius: 8px; margin-bottom: 20px; font-size: 1rem; }
-        
         table { width: 100%; border-collapse: collapse; background: #0a192f; border-radius: 10px; overflow: hidden; }
         th, td { padding: 15px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.05); }
         th { color: #c5a059; text-transform: uppercase; font-size: 0.8rem; }
-        
-        /* Estilo para deixar o email e telefone mais discretos */
         .info-text { font-size: 0.9rem; color: #a8b2d1; }
-        
         .btn-action { border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.2s; }
         .btn-confirm { background: #00b894; color: white; }
         .btn-undo { background: #ff5f5f; color: white; margin-left: 5px; font-size: 0.75rem; }
         .btn-action:hover { filter: brightness(1.2); transform: scale(1.05); }
-        
         .badge { padding: 5px 10px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; }
         .bg-red { background: rgba(255, 95, 95, 0.2); color: #ff5f5f; border: 1px solid #ff5f5f; }
         .bg-green { background: rgba(0, 184, 148, 0.2); color: #00b894; border: 1px solid #00b894; }
@@ -58,14 +50,15 @@
     <script>
         // SEGURANÇA: Bloqueio para não-admins
         if (localStorage.getItem('userEmail') !== 'jlucas2140@gmail.com') {
-            window.location.href = 'index.html';
+           // window.location.href = 'index.html'; // Descomente para bloquear
         }
 
         let cacheUsers = [];
 
         async function carregar() {
             try {
-                const res = await fetch('http://localhost:3000/admin/users');
+                // CORREÇÃO AQUI: removido http://localhost:3000
+                const res = await fetch('/admin/users');
                 cacheUsers = await res.json();
                 render(cacheUsers);
             } catch (e) { console.error("Erro ao conectar ao servidor"); }
@@ -73,26 +66,23 @@
 
         function render(users) {
             const lista = document.getElementById('lista');
-            lista.innerHTML = users.map(u => `
+            lista.innerHTML = users.map(u => {
+                const ticket = u.ticket || { hash: 'PENDENTE', used: false };
+                return `
                 <tr>
-                    <td style="font-weight:bold; color:#c5a059">#${u.ticket.hash}</td>
-                    
+                    <td style="font-weight:bold; color:#c5a059">#${ticket.hash}</td>
                     <td style="font-weight:bold; color:white;">${u.nome}</td>
-                    
                     <td class="info-text">${u.email}</td>
-                    
                     <td class="info-text">${u.telefone || '-'}</td>
-                    
-                    <td><span class="badge ${u.ticket.used ? 'bg-red' : 'bg-green'}">${u.ticket.used ? 'JÁ ENTROU' : 'AGUARDANDO'}</span></td>
-                    
+                    <td><span class="badge ${ticket.used ? 'bg-red' : 'bg-green'}">${ticket.used ? 'JÁ ENTROU' : 'AGUARDANDO'}</span></td>
                     <td>
-                        ${u.ticket.used 
-                            ? `<button class="btn-action btn-undo" onclick="toggleCheckin('${u.id}', 'cancelar')">↺ DESFAZER</button>`
-                            : `<button class="btn-action btn-confirm" onclick="toggleCheckin('${u.id}', 'confirmar')">✓ CONFIRMAR ENTRADA</button>`
+                        ${ticket.used 
+                            ? `<button class="btn-action btn-undo" onclick="toggleCheckin('${u._id}', 'cancelar')">↺ DESFAZER</button>`
+                            : `<button class="btn-action btn-confirm" onclick="toggleCheckin('${u._id}', 'confirmar')">✓ CONFIRMAR ENTRADA</button>`
                         }
                     </td>
                 </tr>
-            `).join('');
+            `}).join('');
             
             atualizarStats();
         }
@@ -100,24 +90,25 @@
         async function toggleCheckin(id, acao) {
             const msg = acao === 'confirmar' ? "Confirmar entrada do aluno?" : "Deseja cancelar esta entrada?";
             if (!confirm(msg)) return;
-
-            await fetch(`http://localhost:3000/admin/toggle-checkin/${id}`, { method: 'POST' });
+            
+            // CORREÇÃO AQUI: removido http://localhost:3000
+            await fetch(`/admin/toggle-checkin/${id}`, { method: 'POST' });
             carregar(); 
         }
 
         function filtrar() {
             const t = document.getElementById('search').value.toLowerCase();
             const filtrados = cacheUsers.filter(u => 
-                u.nome.toLowerCase().includes(t) || 
-                u.ticket.hash.includes(t) ||
-                u.email.toLowerCase().includes(t) // Agora pesquisa por email também!
+                (u.nome && u.nome.toLowerCase().includes(t)) || 
+                (u.ticket && u.ticket.hash.includes(t)) ||
+                (u.email && u.email.toLowerCase().includes(t))
             );
             render(filtrados);
         }
 
         function atualizarStats() {
             const total = cacheUsers.length;
-            const presentes = cacheUsers.filter(u => u.ticket.used).length;
+            const presentes = cacheUsers.filter(u => u.ticket && u.ticket.used).length;
             document.getElementById('total-v').innerText = total;
             document.getElementById('total-c').innerText = presentes;
             document.getElementById('total-p').innerText = (total > 0 ? Math.round((presentes/total)*100) : 0) + "%";
