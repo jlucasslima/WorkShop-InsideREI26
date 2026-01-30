@@ -180,7 +180,7 @@
             </p>
 
             <br><br>
-            <a href="#oferta" class="btn-cta" style="padding: 18px 40px; font-size: 1.1rem;">QUERO GARANTIR MINHA VAGA</a>
+            <a href="javascript:void(0)" onclick="comprar()" class="btn-cta" style="padding: 18px 40px; font-size: 1.1rem;">QUERO GARANTIR MINHA VAGA</a>
         </div>
     </header>
 
@@ -310,7 +310,7 @@
                     <p>👉 Invista em conhecimento que pode mudar suas decisões</p>
                 </div>
 
-                <a href="oferta.html" class="btn-cta" style="width: 100%; display: block; padding: 20px; font-size: 1.1rem; text-transform: uppercase;">QUERO GARANTIR MINHA VAGA POR R$ 149,00</a>
+                <a href="javascript:void(0)" onclick="comprar()" class="btn-cta" style="width: 100%; display: block; padding: 20px; font-size: 1.1rem; text-transform: uppercase;">QUERO GARANTIR MINHA VAGA POR R$ 149,00</a>
             </div>
         </div>
     </section>
@@ -319,9 +319,44 @@
         <p>&copy; 2026 Workshop Presencial.</p>
     </footer>
 
-    <a href="#oferta" class="floating-cta" id="floatingBtn">GARANTIR VAGA</a>
+    <a href="javascript:void(0)" onclick="comprar()" class="floating-cta" id="floatingBtn">GARANTIR VAGA</a>
 
     <script>
+        // --- SCRIPT DE PAGAMENTO (NOVO) ---
+        async function comprar() {
+            // Pede o e-mail para o usuário sem estragar o layout
+            const email = prompt("Por favor, digite seu e-mail para receber o ingresso:");
+            
+            if (!email || !email.includes('@')) {
+                alert("E-mail inválido. Tente novamente.");
+                return;
+            }
+
+            const btns = document.querySelectorAll('.btn-cta');
+            btns.forEach(btn => btn.innerText = "Processando...");
+
+            try {
+                const response = await fetch('/process_payment', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: email })
+                });
+
+                const data = await response.json();
+                
+                if (data.init_point) {
+                    window.location.href = data.init_point; // Manda pro Mercado Pago
+                } else {
+                    alert('Erro ao criar pagamento.');
+                    btns.forEach(btn => btn.innerText = "QUERO GARANTIR MINHA VAGA");
+                }
+            } catch (error) {
+                alert('Erro de conexão.');
+                btns.forEach(btn => btn.innerText = "QUERO GARANTIR MINHA VAGA");
+            }
+        }
+
+        // --- SEUS SCRIPTS ORIGINAIS ---
         // Contagem Regressiva 03/03/2026
         const eventDate = new Date("March 03, 2026 17:00:00").getTime();
         const timer = setInterval(function() {
@@ -348,6 +383,5 @@
             else btn.classList.remove('visible');
         });
     </script>
-
 </body>
 </html>
