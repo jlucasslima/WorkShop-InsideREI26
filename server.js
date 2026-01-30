@@ -19,11 +19,10 @@ mongoose.connect(MONGO_URI)
     .then(() => console.log('✅ MongoDB Conectado!'))
     .catch(err => console.error('❌ Erro MongoDB:', err));
 
-// Modelo de Usuário ATUALIZADO (Com senha e telefone)
 const UserSchema = new mongoose.Schema({
     nome: { type: String, required: true },
     email: { type: String, required: true, unique: true },
-    senha: { type: String, required: true }, // Agora salvamos a senha
+    senha: { type: String, required: true },
     telefone: String,
     data_pagamento: { type: Date, default: Date.now },
     payment_id: String,
@@ -38,73 +37,51 @@ const User = mongoose.model('User', UserSchema);
 
 const client = new MercadoPagoConfig({ accessToken: MP_ACCESS_TOKEN });
 
-// --- ROTA DE REGISTRO (CRIAR CONTA) ---
+// --- ROTA DE REGISTRO ---
 app.post('/register', async (req, res) => {
     try {
         const { nome, email, senha, telefone } = req.body;
-        
-        // Verifica se já existe
         const userExists = await User.findOne({ email });
-        if (userExists) {
-            return res.status(400).json({ error: "E-mail já cadastrado!" });
-        }
+        if (userExists) return res.status(400).json({ error: "E-mail já cadastrado!" });
 
-        // Cria o usuário
         const newUser = await User.create({
-            nome,
-            email,
-            senha, // Em produção real, deveríamos criptografar isso
-            telefone,
-            valor: 0, // Começa com 0 até pagar
+            nome, email, senha, telefone,
+            valor: 0,
             ticket: { status: 'pending', hash: 'AGUARDANDO', used: false }
         });
 
-        res.json({ 
-            success: true, 
-            userId: newUser._id, 
-            nome: newUser.nome, 
-            email: newUser.email 
-        });
-
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Erro ao criar conta" });
-    }
+        res.json({ success: true, userId: newUser._id, nome: newUser.nome, email: newUser.email });
+    } catch (error) { res.status(500).json({ error: "Erro ao criar conta" }); }
 });
 
-// --- ROTA DE LOGIN (ENTRAR) ---
+// --- ROTA DE LOGIN ---
 app.post('/login', async (req, res) => {
     try {
         const { email, senha } = req.body;
-        
-        // Busca usuário
         const user = await User.findOne({ email });
-        
-        // Verifica se existe e se a senha bate
-        if (!user || user.senha !== senha) {
-            return res.status(401).json({ error: "E-mail ou senha incorretos" });
-        }
+        if (!user || user.senha !== senha) return res.status(401).json({ error: "Dados incorretos" });
 
-        res.json({ 
-            success: true, 
-            userId: user._id, 
-            nome: user.nome, 
-            email: user.email 
-        });
-
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Erro no servidor" });
-    }
+        res.json({ success: true, userId: user._id, nome: user.nome, email: user.email });
+    } catch (error) { res.status(500).json({ error: "Erro no servidor" }); }
 });
 
-// --- ROTA DE PAGAMENTO ---
+// --- ROTA DO DASHBOARD (A QUE ESTAVA FALTANDO!) ---
+app.get('/my-ticket', async (req, res) => {
+    const email = req.query.email;
+    if (!email) return res.status(400).json({ error: "Email necessário" });
+    
+    const user = await User.findOne({ email: email });
+    if (user) res.json(user);
+    else res.status(404).json({ error: "Usuário não encontrado" });
+});
+
+// --- PAGAMENTO ---
 app.post('/process_payment', async (req, res) => {
     try {
         const { email } = req.body;
-        
-        // Tenta achar o usuário existente, ou cria um temporário
         let user = await User.findOne({ email });
+        
+        // Se o usuário não existir (compra sem login), cria um temporário
         if (!user) {
             user = await User.create({ email, nome: 'Visitante', senha: 'pix', valor: 149 });
         }
@@ -117,18 +94,15 @@ app.post('/process_payment', async (req, res) => {
                 external_reference: user._id.toString(),
                 back_urls: {
                     success: `${MEU_SITE}/dashboard.html`,
-                    failure: `${MEU_SITE}/`,
-                    pending: `${MEU_SITE}/`
+                    failure: `${MEU_SITE}/dashboard.html`,
+                    pending: `${MEU_SITE}/dashboard.html`
                 },
                 auto_return: 'approved',
                 notification_url: `${MEU_SITE}/webhook`
             }
         });
         res.json({ id: result.id, init_point: result.init_point });
-    } catch (error) {
-        console.error(error);
-        res.status(500).send("Erro no pagamento");
-    }
+    } catch (error) { res.status(500).send("Erro no pagamento"); }
 });
 
 // --- WEBHOOK ---
@@ -152,12 +126,12 @@ app.post('/webhook', async (req, res) => {
     res.sendStatus(200);
 });
 
-// --- ROTAS DO ADMIN ---
+// --- ADMIN ---
 app.get('/admin/users', async (req, res) => {
     const users = await User.find().sort({ data_pagamento: -1 });
     res.json(users);
 });
-app.get('/users', async (req, res) => { // Rota extra de compatibilidade
+app.get('/users', async (req, res) => {
     const users = await User.find().sort({ data_pagamento: -1 });
     res.json(users);
 });
