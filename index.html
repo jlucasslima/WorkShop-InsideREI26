@@ -8,6 +8,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        /* Bloqueio de Scroll Automático */
+        html { scroll-behavior: smooth; }
+
         /* Botão do WhatsApp */
         .whatsapp-btn {
             position: fixed;
@@ -37,45 +40,42 @@
             border-radius: 50%;
         }
 
-        /* LOGO HERO - Estilo Principal */
-        .hero-logo {
-            display: block;
-            margin: 0 auto 30px auto; /* Centraliza */
-            width: 250px; /* Bem grande no PC */
-            height: auto;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4));
+        /* EFEITO DE BRILHO NA LOGO */
+        @keyframes logoGlow {
+            0% { filter: drop-shadow(0 0 5px rgba(197, 160, 89, 0.2)); }
+            50% { filter: drop-shadow(0 0 20px rgba(197, 160, 89, 0.6)); }
+            100% { filter: drop-shadow(0 0 5px rgba(197, 160, 89, 0.2)); }
         }
 
-        /* Ajuste Fino para Celular (Para caber na tela inicial) */
+        .hero-logo {
+            display: block;
+            margin: 0 auto 10px auto; /* Colado no texto */
+            width: 250px; 
+            height: auto;
+            animation: logoGlow 3s infinite ease-in-out; /* Ativa o brilho */
+        }
+
+        /* Ajustes Mobile */
         @media (max-width: 768px) {
-            .hero {
-                padding-top: 60px !important; /* Menos teto no celular */
-            }
+            .hero { padding-top: 40px !important; }
             .hero-logo {
-                width: 180px; /* Um pouco menor no celular pra não empurrar tudo */
-                margin-bottom: 20px;
+                width: 160px;
+                margin-bottom: 5px;
             }
-            h1 {
-                font-size: 2rem !important; /* Ajuste para o título não gritar */
-            }
+            h1 { font-size: 2.2rem !important; margin-top: 0 !important; }
         }
     </style>
 </head>
 <body>
 
     <script>
-        // Isso obriga o navegador a rolar para o topo (0,0) assim que carrega
         if (history.scrollRestoration) {
             history.scrollRestoration = 'manual';
         } else {
-            window.onbeforeunload = function () {
-                window.scrollTo(0, 0);
-            }
+            window.onbeforeunload = function () { window.scrollTo(0, 0); }
         }
         window.onload = function() {
-            setTimeout(function() {
-                window.scrollTo(0, 0);
-            }, 10); // Pequeno delay para garantir
+            setTimeout(function() { window.scrollTo(0, 0); }, 10);
         };
     </script>
 
@@ -89,20 +89,17 @@
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <header class="hero" style="padding: 120px 0 80px; text-align: center; position: relative;">
+    <header class="hero" style="padding: 100px 0 80px; text-align: center; position: relative;">
         <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 50%, rgba(197, 160, 89, 0.1) 0%, transparent 80%); z-index: -1;"></div>
 
         <div class="container">
-            
             <img src="logo.png" alt="Logo InsideREI" class="hero-logo">
 
             <h1 style="font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1.1; color: white; margin-bottom: 5px;">
                 Workshop InsideREI26
             </h1>
 
-            <div class="location-line">
-                Presencial em São Paulo / SP
-            </div>
+            <div class="location-line">Presencial em São Paulo / SP</div>
 
             <h2 style="font-size: clamp(1.2rem, 3vw, 1.8rem); color: white; font-weight: 400; margin-bottom: 30px;">
                 Finanças, Mercado Imobiliário Internacional e Processo Imigratório
@@ -134,10 +131,6 @@
             <p style="color: #ccd6f6; max-width: 800px; margin: 0 auto 20px; line-height: 1.6;">
                 Se você busca clareza financeira, oportunidades reais no mercado imobiliário dos EUA e informação correta sobre imigração, este workshop foi feito para você.
             </p>
-            
-            <p style="color: #ccd6f6; max-width: 800px; margin: 0 auto; line-height: 1.6;">
-                Durante 5 horas de conteúdo estratégico, você terá acesso a especialistas reconhecidos, com experiência prática, visão internacional e linguagem direta — sem promessas vazias, apenas informação que gera decisão.
-            </p>
 
             <br><br>
             <a href="login.html" class="btn-cta" style="padding: 18px 40px; font-size: 1.1rem;">QUERO GARANTIR MINHA VAGA</a>
@@ -155,10 +148,7 @@
                     <div style="text-align: left;">
                         <h4 style="color: #c5a059; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">🔹 Finanças e Estratégia</h4>
                         <h3 style="color: white; margin-bottom: 5px;">com Gustavo Ferreira</h3>
-                        <hr style="border-color: rgba(255,255,255,0.1); margin: 15px 0;">
-                        <p style="color: #ccd6f6; line-height: 1.6;">
-                            Entenda como estruturar sua vida financeira, analisar riscos, planejar investimentos e tomar decisões mais inteligentes, seja como investidor, empresário ou profissional liberal.
-                        </p>
+                        <p style="color: #ccd6f6; line-height: 1.6;">Entenda como estruturar sua vida financeira e planejar investimentos.</p>
                     </div>
                 </div>
 
@@ -167,23 +157,13 @@
                         <img src="fabio.jpg" alt="Fábio Souza" onerror="this.style.display='none'; this.parentNode.innerHTML='<i class=\'fas fa-user\'></i>'">
                     </div>
                     <div style="text-align: left;">
-                        <h4 style="color: #c5a059; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">🔹 Mercado Imobiliário nos EUA</h4>
+                        <h4 style="color: #c5a059; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">🔹 Mercado Imobiliário EUA</h4>
                         <h3 style="color: white; margin-bottom: 5px;">com Fábio Souza</h3>
-                        <p style="color: #8892b0; font-size: 0.9rem; margin-top: 10px;">
-                            Administrador de Empresas, pós-graduado em Finanças e Banking, atuante no mercado imobiliário americano e premiado pelo Quality International.
-                        </p>
-                        <hr style="border-color: rgba(255,255,255,0.1); margin: 15px 0;">
-                        <p style="color: white; font-weight: bold; margin-bottom: 10px;">Você vai aprender, de forma prática:</p>
                         <ul class="check-list">
                             <li><i class="fas fa-check"></i> Leilões imobiliários</li>
-                            <li><i class="fas fa-check"></i> Estratégias de Fix & Rent</li>
                             <li><i class="fas fa-check"></i> Estratégias de Fix & Flip</li>
-                            <li><i class="fas fa-check"></i> Investimentos em lotes e construções</li>
-                            <li><i class="fas fa-check"></i> Riscos, oportunidades e estrutura correta para brasileiros investirem nos EUA</li>
+                            <li><i class="fas fa-check"></i> Investimentos em lotes</li>
                         </ul>
-                        <p style="color: #c5a059; margin-top: 15px; font-style: italic; font-size: 0.9rem;">
-                            "Conteúdo real, baseado em experiência de mercado, não em teoria."
-                        </p>
                     </div>
                 </div>
 
@@ -194,73 +174,21 @@
                     <div style="text-align: left;">
                         <h4 style="color: #c5a059; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">🔹 Processo Imigratório</h4>
                         <h3 style="color: white; margin-bottom: 5px;">com Gustavo Nicolau</h3>
-                        <p style="color: #8892b0; font-size: 0.9rem; margin-top: 10px;">
-                            Advogado licenciado no Brasil e nos Estados Unidos, com sólida formação acadêmica:
-                        </p>
-                        <ul class="check-list" style="margin-bottom: 15px;">
-                            <li><i class="fas fa-graduation-cap"></i> Mestre e Ph.D. – USP</li>
-                            <li><i class="fas fa-graduation-cap"></i> Mestre – University of Chicago</li>
-                        </ul>
-                        <hr style="border-color: rgba(255,255,255,0.1); margin: 15px 0;">
-                        <p style="color: white; font-weight: bold; margin-bottom: 10px;">Você entenderá:</p>
-                        <ul class="check-list">
-                            <li><i class="fas fa-check"></i> Tipos de vistos e caminhos legais</li>
-                            <li><i class="fas fa-check"></i> Como alinhar investimento e imigração</li>
-                            <li><i class="fas fa-check"></i> O que é mito e o que é realidade</li>
-                            <li><i class="fas fa-check"></i> Como evitar erros que custam tempo e dinheiro</li>
-                        </ul>
+                        <p style="color: #ccd6f6;">Tipos de vistos e caminhos legais para os Estados Unidos.</p>
                     </div>
                 </div>
-
-            </div>
-        </div>
-    </section>
-
-    <section class="section-light" style="background-color: #0a192f; padding: 60px 0;">
-        <div class="container" style="max-width: 800px;">
-            <div class="section-divider"></div>
-            <h2 style="text-align: center; color: white; margin-bottom: 30px;">PARA QUEM É ESSE WORKSHOP?</h2>
-            
-            <div style="background: rgba(0,0,0,0.2); padding: 30px; border-radius: 12px;">
-                <ul class="check-list" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                    <li><i class="fas fa-check" style="color: #c5a059; font-size: 1.2rem;"></i> Quem quer investir nos EUA com mais segurança</li>
-                    <li><i class="fas fa-check" style="color: #c5a059; font-size: 1.2rem;"></i> Quem pensa em morar ou empreender fora do Brasil</li>
-                    <li><i class="fas fa-check" style="color: #c5a059; font-size: 1.2rem;"></i> Empresários e investidores</li>
-                    <li><i class="fas fa-check" style="color: #c5a059; font-size: 1.2rem;"></i> Pessoas que valorizam conhecimento estratégico e networking qualificado</li>
-                </ul>
             </div>
         </div>
     </section>
 
     <section id="oferta" class="section-dark" style="background-color: #020c1b; padding: 80px 0; text-align: center;">
         <div class="container">
-            <div style="background: linear-gradient(135deg, #0a192f 0%, #112240 100%); border: 1px solid #c5a059; max-width: 600px; margin: 0 auto; padding: 50px; border-radius: 20px; position: relative; box-shadow: 0 0 40px rgba(197, 160, 89, 0.15);">
-                
-                <h2 style="color: white; text-transform: uppercase;">🔥 Valor Especial</h2>
-                <p style="color: #c5a059; font-weight: bold; letter-spacing: 1px; margin-bottom: 30px;">1º LOTE PROMOCIONAL</p>
-                
-                <div style="margin-bottom: 30px; text-align: left; display: inline-block;">
-                    <p style="color: #8892b0; font-size: 1.1rem; margin-bottom: 10px;">🎟 Valor normal: <span style="text-decoration: line-through;">R$ 299,00</span></p>
-                    <p style="color: white; font-size: 1.5rem; font-weight: bold;">💥 1º lote promocional: <span style="color: #c5a059; font-size: 2.5rem;">R$ 149,00</span></p>
-                </div>
-
-                <p style="color: #ff5f5f; font-size: 0.9rem; margin-bottom: 30px; border: 1px solid #ff5f5f; padding: 10px; border-radius: 4px; display: inline-block;">
-                    ⚠ Vagas limitadas — ao atingir o limite, o valor será reajustado.
-                </p>
-
-                <div class="section-divider"></div>
-
-                <h3 style="color: white; margin-bottom: 15px;">🚀 GARANTA SUA VAGA AGORA</h3>
-                <p style="color: #ccd6f6; font-size: 0.95rem; margin-bottom: 30px; line-height: 1.6;">
-                    Faça seu cadastro agora para acessar a área de pagamento e garantir seu ingresso.
-                </p>
-                
-                <div style="text-align: left; max-width: 400px; margin: 0 auto 30px; color: #8892b0; font-size: 0.9rem;">
-                    <p>👉 Clique no botão abaixo e faça sua inscrição agora</p>
-                    <p>👉 Invista em conhecimento que pode mudar suas decisões</p>
-                </div>
-
-                <a href="login.html" class="btn-cta" style="width: 100%; display: block; padding: 20px; font-size: 1.1rem; text-transform: uppercase; text-decoration: none;">FAZER CADASTRO E PAGAR</a>
+            <div style="background: linear-gradient(135deg, #0a192f 0%, #112240 100%); border: 1px solid #c5a059; max-width: 600px; margin: 0 auto; padding: 50px; border-radius: 20px; box-shadow: 0 0 40px rgba(197, 160, 89, 0.15);">
+                <h2 style="color: white;">🔥 Valor Especial</h2>
+                <p style="color: #c5a059; font-weight: bold; margin-bottom: 30px;">1º LOTE PROMOCIONAL</p>
+                <p style="color: white; font-size: 2.5rem; font-weight: bold;">R$ 149,00</p>
+                <br>
+                <a href="login.html" class="btn-cta" style="width: 100%; display: block; padding: 20px; text-decoration: none;">GARANTIR MINHA VAGA</a>
             </div>
         </div>
     </section>
@@ -284,10 +212,6 @@
             document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
             document.getElementById("minutes").innerText = minutes.toString().padStart(2, '0');
             document.getElementById("seconds").innerText = seconds.toString().padStart(2, '0');
-            if (distance < 0) {
-                clearInterval(timer);
-                document.getElementById("countdown").innerHTML = "<h3 style='color:#c5a059'>COMEÇOU!</h3>";
-            }
         }, 1000);
 
         window.addEventListener('scroll', function() {
