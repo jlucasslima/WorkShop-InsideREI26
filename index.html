@@ -36,6 +36,16 @@
             object-fit: cover;
             border-radius: 50%;
         }
+
+        /* Estilo da Logo Centralizada */
+        .hero-logo {
+            display: block;
+            margin: 0 auto 25px auto; /* Centraliza e dá espaço embaixo */
+            width: 220px; /* Tamanho grande no PC */
+            max-width: 70%; /* Não estoura no celular */
+            height: auto;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); /* Sombra leve pra destacar do fundo */
+        }
     </style>
 </head>
 <body>
@@ -46,18 +56,17 @@
         </a>
     </div>
 
-    <div style="position: absolute; top: 20px; right: 20px; z-index: 9999;">
-        <img src="logo.png" alt="Logo" style="width: 120px; height: auto; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); opacity: 0.9;">
-    </div>
-
     <a href="https://wa.me/5511940405328?text=Olá,%20tenho%20dúvidas%20sobre%20o%20Workshop!" class="whatsapp-btn" target="_blank">
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <header class="hero" style="padding: 120px 0 80px; text-align: center; position: relative;">
+    <header class="hero" style="padding: 100px 0 80px; text-align: center; position: relative;">
         <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 50%, rgba(197, 160, 89, 0.1) 0%, transparent 80%); z-index: -1;"></div>
 
         <div class="container">
+            
+            <img src="logo.png" alt="Logo InsideREI" class="hero-logo">
+
             <h1 style="font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1.1; color: white; margin-bottom: 5px;">
                 Workshop InsideREI26
             </h1>
