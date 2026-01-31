@@ -37,26 +37,33 @@
             border-radius: 50%;
         }
 
-        /* LOGO HERO - Estilo Principal */
-        .hero-logo {
-            display: block;
-            margin: 0 auto 30px auto; /* Centraliza */
-            width: 250px; /* Bem grande no PC */
-            height: auto;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4));
+        /* EFEITO DE BRILHO PULSANTE */
+        @keyframes logoGlow {
+            0% { filter: drop-shadow(0 0 5px rgba(197, 160, 89, 0.2)); }
+            50% { filter: drop-shadow(0 0 15px rgba(197, 160, 89, 0.6)); }
+            100% { filter: drop-shadow(0 0 5px rgba(197, 160, 89, 0.2)); }
         }
 
-        /* Ajuste Fino para Celular (Para caber na tela inicial) */
+        /* LOGO HERO - Centralizada e Próxima ao texto */
+        .hero-logo {
+            display: block;
+            margin: 0 auto 10px auto; /* Reduzido para ficar próximo ao texto */
+            width: 250px; 
+            height: auto;
+            animation: logoGlow 3s infinite ease-in-out;
+        }
+
+        /* Ajuste Fino para Celular */
         @media (max-width: 768px) {
             .hero {
-                padding-top: 60px !important; /* Menos teto no celular */
+                padding-top: 60px !important;
             }
             .hero-logo {
-                width: 180px; /* Um pouco menor no celular pra não empurrar tudo */
-                margin-bottom: 20px;
+                width: 180px;
+                margin-bottom: 5px; /* Quase colado no celular */
             }
             h1 {
-                font-size: 2rem !important; /* Ajuste para o título não gritar */
+                font-size: 2rem !important;
             }
         }
     </style>
@@ -136,7 +143,7 @@
             </p>
             
             <p style="color: #ccd6f6; max-width: 800px; margin: 0 auto; line-height: 1.6;">
-                Durante 5 horas de conteúdo estratégico, você terá acesso a especialistas reconhecidos, com experiência prática, visão internacional e linguagem direta — sem promessas vazias, apenas informação que gera decisão.
+                Durante 5 horas de conteúdo estratégico, você terá acesso a especialistas reconhecidos, com experiência prática, vision internacional e linguagem direta — sem promessas vazias, apenas informação que gera decisão.
             </p>
 
             <br><br>
@@ -288,229 +295,6 @@
                 clearInterval(timer);
                 document.getElementById("countdown").innerHTML = "<h3 style='color:#c5a059'>COMEÇOU!</h3>";
             }
-        }, 1000);
-
-        window.addEventListener('scroll', function() {
-            const btn = document.getElementById('floatingBtn');
-            if (window.scrollY > 600) btn.classList.add('visible');
-            else btn.classList.remove('visible');
-        });
-    </script>
-</body>
-</html><!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Workshop Presencial | SP</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        /* Bloqueio de Scroll Automático */
-        html { scroll-behavior: smooth; }
-
-        /* Botão do WhatsApp */
-        .whatsapp-btn {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background-color: #25d366;
-            color: white;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 35px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            z-index: 1000;
-            transition: 0.3s;
-            text-decoration: none;
-        }
-        .whatsapp-btn:hover { transform: scale(1.1); background-color: #20ba5a; }
-        
-        /* Ajuste das fotos */
-        .speaker-photo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 50%;
-        }
-
-        /* EFEITO DE BRILHO NA LOGO */
-        @keyframes logoGlow {
-            0% { filter: drop-shadow(0 0 5px rgba(197, 160, 89, 0.2)); }
-            50% { filter: drop-shadow(0 0 20px rgba(197, 160, 89, 0.6)); }
-            100% { filter: drop-shadow(0 0 5px rgba(197, 160, 89, 0.2)); }
-        }
-
-        .hero-logo {
-            display: block;
-            margin: 0 auto 10px auto; /* Colado no texto */
-            width: 250px; 
-            height: auto;
-            animation: logoGlow 3s infinite ease-in-out; /* Ativa o brilho */
-        }
-
-        /* Ajustes Mobile */
-        @media (max-width: 768px) {
-            .hero { padding-top: 40px !important; }
-            .hero-logo {
-                width: 160px;
-                margin-bottom: 5px;
-            }
-            h1 { font-size: 2.2rem !important; margin-top: 0 !important; }
-        }
-    </style>
-</head>
-<body>
-
-    <script>
-        if (history.scrollRestoration) {
-            history.scrollRestoration = 'manual';
-        } else {
-            window.onbeforeunload = function () { window.scrollTo(0, 0); }
-        }
-        window.onload = function() {
-            setTimeout(function() { window.scrollTo(0, 0); }, 10);
-        };
-    </script>
-
-    <div style="position: absolute; top: 20px; left: 20px; z-index: 9999;">
-        <a href="login.html" style="color: #c5a059; text-decoration: none; border: 1px solid #c5a059; padding: 8px 12px; border-radius: 4px; font-size: 0.8rem; background: rgba(0,0,0,0.5);">
-            <i class="fas fa-lock"></i> ADMIN
-        </a>
-    </div>
-
-    <a href="https://wa.me/5511940405328?text=Olá,%20tenho%20dúvidas%20sobre%20o%20Workshop!" class="whatsapp-btn" target="_blank">
-        <i class="fab fa-whatsapp"></i>
-    </a>
-
-    <header class="hero" style="padding: 100px 0 80px; text-align: center; position: relative;">
-        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 50%, rgba(197, 160, 89, 0.1) 0%, transparent 80%); z-index: -1;"></div>
-
-        <div class="container">
-            <img src="logo.png" alt="Logo InsideREI" class="hero-logo">
-
-            <h1 style="font-size: clamp(2.5rem, 5vw, 4rem); line-height: 1.1; color: white; margin-bottom: 5px;">
-                Workshop InsideREI26
-            </h1>
-
-            <div class="location-line">Presencial em São Paulo / SP</div>
-
-            <h2 style="font-size: clamp(1.2rem, 3vw, 1.8rem); color: white; font-weight: 400; margin-bottom: 30px;">
-                Finanças, Mercado Imobiliário Internacional e Processo Imigratório
-            </h2>
-
-            <div class="meta-badges">
-                <div class="badge-item"><i class="fas fa-map-marker-alt"></i> São Paulo/SP</div>
-                <div class="badge-item"><i class="far fa-calendar-alt"></i> 03 de março de 2026</div>
-                <div class="badge-item"><i class="far fa-clock"></i> Das 17h às 22h</div>
-            </div>
-
-            <p style="color: #8892b0; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">
-                🎟 Vagas limitadas | Evento presencial
-            </p>
-
-            <div class="countdown-container" id="countdown">
-                <div class="countdown-item"><span class="countdown-number" id="days">00</span><span class="countdown-label">Dias</span></div>
-                <div class="countdown-item"><span class="countdown-number" id="hours">00</span><span class="countdown-label">Horas</span></div>
-                <div class="countdown-item"><span class="countdown-number" id="minutes">00</span><span class="countdown-label">Min</span></div>
-                <div class="countdown-item"><span class="countdown-number" id="seconds">00</span><span class="countdown-label">Seg</span></div>
-            </div>
-
-            <div class="section-divider"></div>
-
-            <h3 style="color: white; font-size: 1.5rem; max-width: 800px; margin: 0 auto 20px;">
-                UM ÚNICO EVENTO. TRÊS PILARES ESSENCIAIS PARA QUEM QUER CRESCER COM SEGURANÇA.
-            </h3>
-            
-            <p style="color: #ccd6f6; max-width: 800px; margin: 0 auto 20px; line-height: 1.6;">
-                Se você busca clareza financeira, oportunidades reais no mercado imobiliário dos EUA e informação correta sobre imigração, este workshop foi feito para você.
-            </p>
-
-            <br><br>
-            <a href="login.html" class="btn-cta" style="padding: 18px 40px; font-size: 1.1rem;">QUERO GARANTIR MINHA VAGA</a>
-        </div>
-    </header>
-
-    <section class="section-dark" style="background-color: #020c1b; padding: 60px 0;">
-        <div class="container">
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px;">
-                
-                <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 30px; border-radius: 12px; text-align: center;">
-                    <div class="speaker-photo">
-                        <img src="gustavo.jpg" alt="Gustavo Ferreira" onerror="this.style.display='none'; this.parentNode.innerHTML='<i class=\'fas fa-user\'></i>'">
-                    </div>
-                    <div style="text-align: left;">
-                        <h4 style="color: #c5a059; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">🔹 Finanças e Estratégia</h4>
-                        <h3 style="color: white; margin-bottom: 5px;">com Gustavo Ferreira</h3>
-                        <p style="color: #ccd6f6; line-height: 1.6;">Entenda como estruturar sua vida financeira e planejar investimentos.</p>
-                    </div>
-                </div>
-
-                <div style="background: rgba(255,255,255,0.03); border: 1px solid #c5a059; padding: 30px; border-radius: 12px; transform: scale(1.02); text-align: center;">
-                    <div class="speaker-photo">
-                        <img src="fabio.jpg" alt="Fábio Souza" onerror="this.style.display='none'; this.parentNode.innerHTML='<i class=\'fas fa-user\'></i>'">
-                    </div>
-                    <div style="text-align: left;">
-                        <h4 style="color: #c5a059; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">🔹 Mercado Imobiliário EUA</h4>
-                        <h3 style="color: white; margin-bottom: 5px;">com Fábio Souza</h3>
-                        <ul class="check-list">
-                            <li><i class="fas fa-check"></i> Leilões imobiliários</li>
-                            <li><i class="fas fa-check"></i> Estratégias de Fix & Flip</li>
-                            <li><i class="fas fa-check"></i> Investimentos em lotes</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 30px; border-radius: 12px; text-align: center;">
-                    <div class="speaker-photo">
-                        <img src="nicolau.jpg" alt="Gustavo Nicolau" onerror="this.style.display='none'; this.parentNode.innerHTML='<i class=\'fas fa-user\'></i>'">
-                    </div>
-                    <div style="text-align: left;">
-                        <h4 style="color: #c5a059; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">🔹 Processo Imigratório</h4>
-                        <h3 style="color: white; margin-bottom: 5px;">com Gustavo Nicolau</h3>
-                        <p style="color: #ccd6f6;">Tipos de vistos e caminhos legais para os Estados Unidos.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="oferta" class="section-dark" style="background-color: #020c1b; padding: 80px 0; text-align: center;">
-        <div class="container">
-            <div style="background: linear-gradient(135deg, #0a192f 0%, #112240 100%); border: 1px solid #c5a059; max-width: 600px; margin: 0 auto; padding: 50px; border-radius: 20px; box-shadow: 0 0 40px rgba(197, 160, 89, 0.15);">
-                <h2 style="color: white;">🔥 Valor Especial</h2>
-                <p style="color: #c5a059; font-weight: bold; margin-bottom: 30px;">1º LOTE PROMOCIONAL</p>
-                <p style="color: white; font-size: 2.5rem; font-weight: bold;">R$ 149,00</p>
-                <br>
-                <a href="login.html" class="btn-cta" style="width: 100%; display: block; padding: 20px; text-decoration: none;">GARANTIR MINHA VAGA</a>
-            </div>
-        </div>
-    </section>
-
-    <footer style="text-align: center; padding: 40px 0; color: #8892b0; font-size: 0.8rem; background: #000;">
-        <p>&copy; 2026 Workshop Presencial.</p>
-    </footer>
-
-    <a href="login.html" class="floating-cta" id="floatingBtn">GARANTIR VAGA</a>
-
-    <script>
-        const eventDate = new Date("March 03, 2026 17:00:00").getTime();
-        const timer = setInterval(function() {
-            const now = new Date().getTime();
-            const distance = eventDate - now;
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            document.getElementById("days").innerText = days.toString().padStart(2, '0');
-            document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
-            document.getElementById("minutes").innerText = minutes.toString().padStart(2, '0');
-            document.getElementById("seconds").innerText = seconds.toString().padStart(2, '0');
         }, 1000);
 
         window.addEventListener('scroll', function() {
