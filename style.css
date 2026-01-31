@@ -487,4 +487,77 @@ th { color: var(--gold); text-transform: uppercase; font-size: 0.8rem; }
     font-style: italic;
     color: #fff;
 }
+/* --- RESPONSIVIDADE (ADAPTAÇÃO PARA CELULAR) --- */
+@media (max-width: 768px) {
+    
+    /* 1. Ajusta o Hero (Topo) */
+    .hero {
+        padding: 80px 20px 60px !important; /* Menos espaço em cima/baixo */
+        background-position: center top;
+    }
 
+    .hero h1 {
+        font-size: 2.2rem !important; /* Diminui o título principal */
+        line-height: 1.2;
+    }
+
+    .hero h2 {
+        font-size: 1.1rem !important;
+        margin-bottom: 20px;
+    }
+
+    /* 2. Ajusta as Grades (Palestrantes e Cards) */
+    /* Força os cards a ficarem um embaixo do outro e ocuparem a largura total */
+    div[style*="grid-template-columns"] {
+        grid-template-columns: 1fr !important; 
+        gap: 30px !important;
+    }
+
+    /* 3. Ajusta Botões e Caixas */
+    .btn-cta, .btn-premium-cta, button.btn-login {
+        width: 100% !important; /* Botão ocupa a largura toda no dedo */
+        padding: 18px !important;
+        font-size: 1rem !important;
+    }
+
+    .container {
+        padding: 0 15px !important; /* Margem lateral de segurança para não colar na borda */
+    }
+
+    /* 4. Ajusta o Login e Oferta */
+    .login-card, .price-box {
+        padding: 30px 20px !important; /* Menos estofamento interno */
+        width: 100% !important;
+    }
+
+    /* 5. Ajusta Badges e Contadores */
+    .meta-badges {
+        flex-direction: column; /* Empilha as informações de data/hora */
+        gap: 10px;
+    }
+    
+    .badge-item {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .countdown-container {
+        gap: 8px !important; /* Aproxima os números do contador */
+    }
+    
+    .countdown-item {
+        min-width: 60px !important; /* Caixinhas menores */
+        padding: 8px !important;
+    }
+    
+    .countdown-number {
+        font-size: 1.2rem !important;
+    }
+
+    /* 6. Ajusta a Foto dos Palestrantes */
+    .speaker-photo {
+        width: 120px !important;
+        height: 120px !important;
+        font-size: 2.5rem !important; /* Ícone menor */
+    }
+}
