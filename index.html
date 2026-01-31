@@ -7,130 +7,14 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <style>
-        /* ESTILOS EXTRAS PARA A NOVA ESTRUTURA */
-        .meta-badges {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin-bottom: 25px;
-        }
-        .badge-item {
-            background: rgba(10, 25, 47, 0.8);
-            border: 1px solid #c5a059;
-            color: #c5a059;
-            padding: 8px 16px;
-            border-radius: 4px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .section-divider {
-            width: 60px;
-            height: 4px;
-            background: #c5a059;
-            margin: 40px auto;
-            border-radius: 2px;
-        }
-
-        .check-list {
-            list-style: none;
-            padding: 0;
-            text-align: left;
-            margin-top: 15px;
-        }
-        .check-list li {
-            margin-bottom: 10px;
-            color: #ccd6f6;
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            font-size: 0.95rem;
-        }
-        .check-list li i {
-            color: #c5a059;
-            margin-top: 4px;
-        }
-
-        .countdown-container {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 30px 0;
-        }
-        .countdown-item {
-            text-align: center;
-            min-width: 70px;
-            background: rgba(255,255,255,0.05);
-            padding: 10px;
-            border-radius: 8px;
-        }
-        .countdown-number { font-size: 1.5rem; font-weight: 800; color: white; display: block; }
-        .countdown-label { font-size: 0.7rem; color: #8892b0; text-transform: uppercase; }
-
-        .floating-cta {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #c5a059;
-            color: #020c1b;
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-weight: bold;
-            text-decoration: none;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            z-index: 1000;
-            transform: translateY(100px);
-            transition: 0.3s;
-            opacity: 0;
-        }
-        .floating-cta.visible { transform: translateY(0); opacity: 1; }
-
-        /* ESTILO DA FOTO DO PALESTRANTE */
-        .speaker-photo {
-            width: 150px;
-            height: 150px;
-            background-color: #0a192f;
-            border: 3px solid #c5a059;
-            border-radius: 50%;
-            margin: 0 auto 25px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-        .speaker-photo i {
-            font-size: 4rem;
-            color: #c5a059;
-        }
-        .speaker-photo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        /* LINHA DESTAQUE NO HERO */
-        .location-line {
-            font-size: 1.1rem;
-            color: #c5a059;
-            font-weight: bold;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin: 10px 0 20px;
-            display: inline-block;
-            border-top: 1px solid #c5a059;
-            border-bottom: 1px solid #c5a059;
-            padding: 5px 20px;
-        }
-    </style>
 </head>
 <body>
+
+    <div style="position: absolute; top: 20px; right: 20px; z-index: 9999;">
+        <a href="login.html" style="color: #c5a059; text-decoration: none; border: 1px solid #c5a059; padding: 8px 12px; border-radius: 4px; font-size: 0.8rem; background: rgba(0,0,0,0.5);">
+            <i class="fas fa-lock"></i> ADMIN
+        </a>
+    </div>
 
     <header class="hero" style="padding: 120px 0 80px; text-align: center; position: relative;">
         <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 50%, rgba(197, 160, 89, 0.1) 0%, transparent 80%); z-index: -1;"></div>
@@ -180,7 +64,7 @@
             </p>
 
             <br><br>
-            <a href="javascript:void(0)" onclick="comprar()" class="btn-cta" style="padding: 18px 40px; font-size: 1.1rem;">QUERO GARANTIR MINHA VAGA</a>
+            <a href="#oferta" class="btn-cta" style="padding: 18px 40px; font-size: 1.1rem;">QUERO GARANTIR MINHA VAGA</a>
         </div>
     </header>
 
@@ -190,74 +74,50 @@
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px;">
                 
                 <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 30px; border-radius: 12px; text-align: center;">
-                    
-                    <div class="speaker-photo">
-                        <i class="fas fa-user"></i> 
-                    </div>
-
+                    <div class="speaker-photo"><i class="fas fa-user"></i></div>
                     <div style="text-align: left;">
                         <h4 style="color: #c5a059; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">🔹 Finanças e Estratégia</h4>
                         <h3 style="color: white; margin-bottom: 5px;">com Gustavo Ferreira</h3>
                         <hr style="border-color: rgba(255,255,255,0.1); margin: 15px 0;">
-                        
                         <p style="color: #ccd6f6; line-height: 1.6;">
-                            Entenda como estruturar sua vida financeira, analisar riscos, planejar investimentos e tomar decisões mais inteligentes, seja como investidor, empresário ou profissional liberal.
+                            Entenda como estruturar sua vida financeira, analisar riscos, planejar investimentos e tomar decisões mais inteligentes.
                         </p>
                     </div>
                 </div>
 
                 <div style="background: rgba(255,255,255,0.03); border: 1px solid #c5a059; padding: 30px; border-radius: 12px; transform: scale(1.02); text-align: center;">
-                    
-                    <div class="speaker-photo">
-                        <i class="fas fa-user"></i>
-                    </div>
-
+                    <div class="speaker-photo"><i class="fas fa-user"></i></div>
                     <div style="text-align: left;">
                         <h4 style="color: #c5a059; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">🔹 Mercado Imobiliário nos EUA</h4>
                         <h3 style="color: white; margin-bottom: 5px;">com Fábio Souza</h3>
                         <p style="color: #8892b0; font-size: 0.9rem; margin-top: 10px;">
-                            Administrador de Empresas, pós-graduado em Finanças e Banking, atuante no mercado imobiliário americano e premiado pelo Quality International.
+                            Administrador de Empresas, pós-graduado em Finanças e Banking.
                         </p>
                         <hr style="border-color: rgba(255,255,255,0.1); margin: 15px 0;">
-                        
                         <p style="color: white; font-weight: bold;">Você vai aprender, de forma prática:</p>
                         <ul class="check-list">
                             <li><i class="fas fa-check"></i> Leilões imobiliários</li>
-                            <li><i class="fas fa-check"></i> Estratégias de Fix & Rent</li>
-                            <li><i class="fas fa-check"></i> Estratégias de Fix & Flip</li>
+                            <li><i class="fas fa-check"></i> Estratégias de Fix & Rent e Fix & Flip</li>
                             <li><i class="fas fa-check"></i> Investimentos em lotes e construções</li>
-                            <li><i class="fas fa-check"></i> Riscos, oportunidades e estrutura correta para brasileiros investirem nos EUA</li>
                         </ul>
-                        <p style="color: #c5a059; margin-top: 15px; font-style: italic; font-size: 0.9rem;">
-                            "Conteúdo real, baseado em experiência de mercado, não em teoria."
-                        </p>
                     </div>
                 </div>
 
                 <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 30px; border-radius: 12px; text-align: center;">
-                    
-                    <div class="speaker-photo">
-                        <i class="fas fa-user"></i>
-                    </div>
-
+                    <div class="speaker-photo"><i class="fas fa-user"></i></div>
                     <div style="text-align: left;">
                         <h4 style="color: #c5a059; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">🔹 Processo Imigratório</h4>
                         <h3 style="color: white; margin-bottom: 5px;">com Gustavo Nicolau</h3>
                         <p style="color: #8892b0; font-size: 0.9rem; margin-top: 10px;">
-                            Advogado licenciado no Brasil e nos Estados Unidos, com sólida formação acadêmica:
+                            Advogado licenciado no Brasil e nos Estados Unidos.
                         </p>
                         <ul class="check-list" style="margin-bottom: 15px;">
                             <li><i class="fas fa-graduation-cap"></i> Mestre e Ph.D. – USP</li>
-                            <li><i class="fas fa-graduation-cap"></i> Mestre – University of Chicago</li>
                         </ul>
                         <hr style="border-color: rgba(255,255,255,0.1); margin: 15px 0;">
-                        
-                        <p style="color: white; font-weight: bold;">Você entenderá:</p>
                         <ul class="check-list">
                             <li><i class="fas fa-check"></i> Tipos de vistos e caminhos legais</li>
                             <li><i class="fas fa-check"></i> Como alinhar investimento e imigração</li>
-                            <li><i class="fas fa-check"></i> O que é mito e o que é realidade</li>
-                            <li><i class="fas fa-check"></i> Como evitar erros que custam tempo e dinheiro</li>
                         </ul>
                     </div>
                 </div>
@@ -276,7 +136,7 @@
                     <li><i class="fas fa-check" style="color: #c5a059; font-size: 1.2rem;"></i> Quem quer investir nos EUA com mais segurança</li>
                     <li><i class="fas fa-check" style="color: #c5a059; font-size: 1.2rem;"></i> Quem pensa em morar ou empreender fora do Brasil</li>
                     <li><i class="fas fa-check" style="color: #c5a059; font-size: 1.2rem;"></i> Empresários e investidores</li>
-                    <li><i class="fas fa-check" style="color: #c5a059; font-size: 1.2rem;"></i> Pessoas que valorizam conhecimento estratégico e networking qualificado</li>
+                    <li><i class="fas fa-check" style="color: #c5a059; font-size: 1.2rem;"></i> Pessoas que valorizam conhecimento estratégico</li>
                 </ul>
             </div>
         </div>
@@ -302,15 +162,15 @@
 
                 <h3 style="color: white; margin-bottom: 15px;">🚀 GARANTA SUA VAGA AGORA</h3>
                 <p style="color: #ccd6f6; font-size: 0.95rem; margin-bottom: 30px; line-height: 1.6;">
-                    Não perca a oportunidade de participar de um evento presencial que reúne finanças, investimentos e imigração em um único lugar, com especialistas que vivem o mercado na prática.
+                    Não perca a oportunidade de participar de um evento presencial único.
                 </p>
                 
-                <div style="text-align: left; max-width: 400px; margin: 0 auto 30px; color: #8892b0; font-size: 0.9rem;">
-                    <p>👉 Clique no botão abaixo e faça sua inscrição agora</p>
-                    <p>👉 Invista em conhecimento que pode mudar suas decisões</p>
+                <div style="text-align: left; max-width: 400px; margin: 0 auto 30px;">
+                    <label style="color: #c5a059; font-weight: bold; display: block; margin-bottom: 5px;">Seu melhor e-mail:</label>
+                    <input type="email" id="email-compra" placeholder="Digite seu e-mail aqui..." style="width: 100%; padding: 12px; border: 1px solid #c5a059; background: rgba(0,0,0,0.3); color: white; border-radius: 5px;">
                 </div>
 
-                <a href="javascript:void(0)" onclick="comprar()" class="btn-cta" style="width: 100%; display: block; padding: 20px; font-size: 1.1rem; text-transform: uppercase;">QUERO GARANTIR MINHA VAGA POR R$ 149,00</a>
+                <button onclick="comprar()" class="btn-cta" style="width: 100%; display: block; padding: 20px; font-size: 1.1rem; text-transform: uppercase; cursor: pointer; border: none;">QUERO GARANTIR MINHA VAGA POR R$ 149,00</button>
             </div>
         </div>
     </section>
@@ -319,21 +179,25 @@
         <p>&copy; 2026 Workshop Presencial.</p>
     </footer>
 
-    <a href="javascript:void(0)" onclick="comprar()" class="floating-cta" id="floatingBtn">GARANTIR VAGA</a>
+    <a href="#oferta" class="floating-cta" id="floatingBtn">GARANTIR VAGA</a>
 
     <script>
-        // --- SCRIPT DE PAGAMENTO (NOVO) ---
+        // FUNÇÃO DE COMPRA ATUALIZADA (Lê o campo da tela, não pede prompt)
         async function comprar() {
-            // Pede o e-mail para o usuário sem estragar o layout
-            const email = prompt("Por favor, digite seu e-mail para receber o ingresso:");
-            
+            const emailField = document.getElementById('email-compra');
+            const email = emailField.value;
+            const btn = document.querySelector('.btn-cta');
+
+            // Validação simples
             if (!email || !email.includes('@')) {
-                alert("E-mail inválido. Tente novamente.");
+                alert("Por favor, digite um e-mail válido no campo acima.");
+                emailField.focus(); // Joga o cursor pro campo
+                emailField.style.borderColor = "red"; // Pinta a borda de vermelho
                 return;
             }
 
-            const btns = document.querySelectorAll('.btn-cta');
-            btns.forEach(btn => btn.innerText = "Processando...");
+            btn.innerText = "Processando...";
+            btn.disabled = true;
 
             try {
                 const response = await fetch('/process_payment', {
@@ -348,16 +212,17 @@
                     window.location.href = data.init_point; // Manda pro Mercado Pago
                 } else {
                     alert('Erro ao criar pagamento.');
-                    btns.forEach(btn => btn.innerText = "QUERO GARANTIR MINHA VAGA");
+                    btn.disabled = false;
+                    btn.innerText = "QUERO GARANTIR MINHA VAGA POR R$ 149,00";
                 }
             } catch (error) {
-                alert('Erro de conexão.');
-                btns.forEach(btn => btn.innerText = "QUERO GARANTIR MINHA VAGA");
+                alert('Erro de conexão. Verifique sua internet.');
+                btn.disabled = false;
+                btn.innerText = "QUERO GARANTIR MINHA VAGA POR R$ 149,00";
             }
         }
 
-        // --- SEUS SCRIPTS ORIGINAIS ---
-        // Contagem Regressiva 03/03/2026
+        // Seus scripts de contagem e botão flutuante
         const eventDate = new Date("March 03, 2026 17:00:00").getTime();
         const timer = setInterval(function() {
             const now = new Date().getTime();
@@ -376,7 +241,6 @@
             }
         }, 1000);
 
-        // Botão Flutuante
         window.addEventListener('scroll', function() {
             const btn = document.getElementById('floatingBtn');
             if (window.scrollY > 600) btn.classList.add('visible');
