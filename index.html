@@ -7,14 +7,40 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Botão do WhatsApp (Canto Esquerdo) */
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: #25d366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 35px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            z-index: 1000;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+        .whatsapp-btn:hover { transform: scale(1.1); background-color: #20ba5a; }
+    </style>
 </head>
 <body>
 
     <div style="position: absolute; top: 20px; right: 20px; z-index: 9999;">
         <a href="login.html" style="color: #c5a059; text-decoration: none; border: 1px solid #c5a059; padding: 8px 12px; border-radius: 4px; font-size: 0.8rem; background: rgba(0,0,0,0.5);">
-            <i class="fas fa-lock"></i> ADMIN / ENTRAR
+            <i class="fas fa-lock"></i> ADMIN
         </a>
     </div>
+
+    <a href="https://wa.me/5511940405328?text=Olá,%20tenho%20dúvidas%20sobre%20o%20Workshop!" class="whatsapp-btn" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
 
     <header class="hero" style="padding: 120px 0 80px; text-align: center; position: relative;">
         <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 50%, rgba(197, 160, 89, 0.1) 0%, transparent 80%); z-index: -1;"></div>
@@ -58,10 +84,6 @@
             <p style="color: #ccd6f6; max-width: 800px; margin: 0 auto 20px; line-height: 1.6;">
                 Se você busca clareza financeira, oportunidades reais no mercado imobiliário dos EUA e informação correta sobre imigração, este workshop foi feito para você.
             </p>
-            
-            <p style="color: #ccd6f6; max-width: 800px; margin: 0 auto; line-height: 1.6;">
-                Durante 5 horas de conteúdo estratégico, você terá acesso a especialistas reconhecidos, com experiência prática, visão internacional e linguagem direta, sem promessas vazias, apenas informação que gera decisão.
-            </p>
 
             <br><br>
             <a href="login.html" class="btn-cta" style="padding: 18px 40px; font-size: 1.1rem;">QUERO GARANTIR MINHA VAGA</a>
@@ -70,78 +92,47 @@
 
     <section class="section-dark" style="background-color: #020c1b; padding: 60px 0;">
         <div class="container">
-            
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px;">
                 
                 <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 30px; border-radius: 12px; text-align: center;">
-                    
                     <div class="speaker-photo">
-                        <i class="fas fa-user"></i> 
+                        <img src="FOTO_GUSTAVO.jpg" alt="Gustavo" onerror="this.style.display='none'; this.parentNode.innerHTML='<i class=\'fas fa-user\'></i>'">
                     </div>
-
                     <div style="text-align: left;">
                         <h4 style="color: #c5a059; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">🔹 Finanças e Estratégia</h4>
                         <h3 style="color: white; margin-bottom: 5px;">com Gustavo Ferreira</h3>
                         <hr style="border-color: rgba(255,255,255,0.1); margin: 15px 0;">
-                        
-                        <p style="color: #ccd6f6; line-height: 1.6;">
-                            Entenda como estruturar sua vida financeira, analisar riscos, planejar investimentos e tomar decisões mais inteligentes, seja como investidor, empresário ou profissional liberal.
-                        </p>
+                        <p style="color: #ccd6f6; line-height: 1.6;">Entenda como estruturar sua vida financeira e analisar riscos.</p>
                     </div>
                 </div>
 
                 <div style="background: rgba(255,255,255,0.03); border: 1px solid #c5a059; padding: 30px; border-radius: 12px; transform: scale(1.02); text-align: center;">
-                    
                     <div class="speaker-photo">
-                        <i class="fas fa-user"></i>
+                        <img src="FOTO_FABIO.jpg" alt="Fábio" onerror="this.style.display='none'; this.parentNode.innerHTML='<i class=\'fas fa-user\'></i>'">
                     </div>
-
                     <div style="text-align: left;">
                         <h4 style="color: #c5a059; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">🔹 Mercado Imobiliário nos EUA</h4>
                         <h3 style="color: white; margin-bottom: 5px;">com Fábio Souza</h3>
-                        <p style="color: #8892b0; font-size: 0.9rem; margin-top: 10px;">
-                            Administrador de Empresas, pós-graduado em Finanças e Banking, atuante no mercado imobiliário americano e premiado pelo Quality International.
-                        </p>
                         <hr style="border-color: rgba(255,255,255,0.1); margin: 15px 0;">
-                        
                         <p style="color: white; font-weight: bold;">Você vai aprender, de forma prática:</p>
                         <ul class="check-list">
                             <li><i class="fas fa-check"></i> Leilões imobiliários</li>
-                            <li><i class="fas fa-check"></i> Estratégias de Fix & Rent</li>
-                            <li><i class="fas fa-check"></i> Estratégias de Fix & Flip</li>
-                            <li><i class="fas fa-check"></i> Investimentos em lotes e construções</li>
-                            <li><i class="fas fa-check"></i> Riscos, oportunidades e estrutura correta para brasileiros investirem nos EUA</li>
+                            <li><i class="fas fa-check"></i> Estratégias de Fix & Rent e Fix & Flip</li>
                         </ul>
-                        <p style="color: #c5a059; margin-top: 15px; font-style: italic; font-size: 0.9rem;">
-                            "Conteúdo real, baseado em experiência de mercado, não em teoria."
-                        </p>
                     </div>
                 </div>
 
                 <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 30px; border-radius: 12px; text-align: center;">
-                    
                     <div class="speaker-photo">
-                        <i class="fas fa-user"></i>
+                        <img src="FOTO_NICOLAU.jpg" alt="Nicolau" onerror="this.style.display='none'; this.parentNode.innerHTML='<i class=\'fas fa-user\'></i>'">
                     </div>
-
                     <div style="text-align: left;">
                         <h4 style="color: #c5a059; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">🔹 Processo Imigratório</h4>
                         <h3 style="color: white; margin-bottom: 5px;">com Gustavo Nicolau</h3>
-                        <p style="color: #8892b0; font-size: 0.9rem; margin-top: 10px;">
-                            Advogado licenciado no Brasil e nos Estados Unidos, com sólida formação acadêmica:
-                        </p>
-                        <ul class="check-list" style="margin-bottom: 15px;">
-                            <li><i class="fas fa-graduation-cap"></i> Mestre e Ph.D. – USP</li>
-                            <li><i class="fas fa-graduation-cap"></i> Mestre – University of Chicago</li>
-                        </ul>
                         <hr style="border-color: rgba(255,255,255,0.1); margin: 15px 0;">
-                        
-                        <p style="color: white; font-weight: bold;">Você entenderá:</p>
                         <ul class="check-list">
                             <li><i class="fas fa-check"></i> Tipos de vistos e caminhos legais</li>
                             <li><i class="fas fa-check"></i> Como alinhar investimento e imigração</li>
-                            <li><i class="fas fa-check"></i> O que é mito e o que é realidade</li>
-                            <li><i class="fas fa-check"></i> Como evitar erros que custam tempo e dinheiro</li>
                         </ul>
                     </div>
                 </div>
@@ -160,7 +151,7 @@
                     <li><i class="fas fa-check" style="color: #c5a059; font-size: 1.2rem;"></i> Quem quer investir nos EUA com mais segurança</li>
                     <li><i class="fas fa-check" style="color: #c5a059; font-size: 1.2rem;"></i> Quem pensa em morar ou empreender fora do Brasil</li>
                     <li><i class="fas fa-check" style="color: #c5a059; font-size: 1.2rem;"></i> Empresários e investidores</li>
-                    <li><i class="fas fa-check" style="color: #c5a059; font-size: 1.2rem;"></i> Pessoas que valorizam conhecimento estratégico e networking qualificado</li>
+                    <li><i class="fas fa-check" style="color: #c5a059; font-size: 1.2rem;"></i> Pessoas que valorizam conhecimento estratégico</li>
                 </ul>
             </div>
         </div>
@@ -186,15 +177,10 @@
 
                 <h3 style="color: white; margin-bottom: 15px;">🚀 GARANTA SUA VAGA AGORA</h3>
                 <p style="color: #ccd6f6; font-size: 0.95rem; margin-bottom: 30px; line-height: 1.6;">
-                    Não perca a oportunidade de participar de um evento presencial que reúne finanças, investimentos e imigração em um único lugar, com especialistas que vivem o mercado na prática.
+                    Faça seu cadastro agora para acessar a área de pagamento e garantir seu ingresso.
                 </p>
                 
-                <div style="text-align: left; max-width: 400px; margin: 0 auto 30px; color: #8892b0; font-size: 0.9rem;">
-                    <p>👉 Clique no botão abaixo para fazer seu cadastro.</p>
-                    <p>👉 Garanta sua vaga com segurança na próxima tela.</p>
-                </div>
-
-                <a href="login.html" class="btn-cta" style="width: 100%; display: block; padding: 20px; font-size: 1.1rem; text-transform: uppercase; text-decoration: none;">QUERO GARANTIR MINHA VAGA POR R$ 149,00</a>
+                <a href="login.html" class="btn-cta" style="width: 100%; display: block; padding: 20px; font-size: 1.1rem; text-transform: uppercase; text-decoration: none;">FAZER CADASTRO E PAGAR</a>
             </div>
         </div>
     </section>
@@ -206,7 +192,6 @@
     <a href="login.html" class="floating-cta" id="floatingBtn">GARANTIR VAGA</a>
 
     <script>
-        // Contagem Regressiva 03/03/2026
         const eventDate = new Date("March 03, 2026 17:00:00").getTime();
         const timer = setInterval(function() {
             const now = new Date().getTime();
@@ -225,7 +210,6 @@
             }
         }, 1000);
 
-        // Botão Flutuante
         window.addEventListener('scroll', function() {
             const btn = document.getElementById('floatingBtn');
             if (window.scrollY > 600) btn.classList.add('visible');
