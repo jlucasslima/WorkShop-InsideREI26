@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* Botão do WhatsApp (Canto Esquerdo) */
+        /* Botão do WhatsApp */
         .whatsapp-btn {
             position: fixed;
             bottom: 20px;
@@ -29,7 +29,7 @@
         }
         .whatsapp-btn:hover { transform: scale(1.1); background-color: #20ba5a; }
         
-        /* Ajuste para imagem preencher a bolinha */
+        /* Ajuste das fotos */
         .speaker-photo img {
             width: 100%;
             height: 100%;
@@ -37,18 +37,47 @@
             border-radius: 50%;
         }
 
-        /* Estilo da Logo Centralizada */
+        /* LOGO HERO - Estilo Principal */
         .hero-logo {
             display: block;
-            margin: 0 auto 25px auto; /* Centraliza e dá espaço embaixo */
-            width: 220px; /* Tamanho grande no PC */
-            max-width: 70%; /* Não estoura no celular */
+            margin: 0 auto 30px auto; /* Centraliza */
+            width: 250px; /* Bem grande no PC */
             height: auto;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); /* Sombra leve pra destacar do fundo */
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4));
+        }
+
+        /* Ajuste Fino para Celular (Para caber na tela inicial) */
+        @media (max-width: 768px) {
+            .hero {
+                padding-top: 60px !important; /* Menos teto no celular */
+            }
+            .hero-logo {
+                width: 180px; /* Um pouco menor no celular pra não empurrar tudo */
+                margin-bottom: 20px;
+            }
+            h1 {
+                font-size: 2rem !important; /* Ajuste para o título não gritar */
+            }
         }
     </style>
 </head>
 <body>
+
+    <script>
+        // Isso obriga o navegador a rolar para o topo (0,0) assim que carrega
+        if (history.scrollRestoration) {
+            history.scrollRestoration = 'manual';
+        } else {
+            window.onbeforeunload = function () {
+                window.scrollTo(0, 0);
+            }
+        }
+        window.onload = function() {
+            setTimeout(function() {
+                window.scrollTo(0, 0);
+            }, 10); // Pequeno delay para garantir
+        };
+    </script>
 
     <div style="position: absolute; top: 20px; left: 20px; z-index: 9999;">
         <a href="login.html" style="color: #c5a059; text-decoration: none; border: 1px solid #c5a059; padding: 8px 12px; border-radius: 4px; font-size: 0.8rem; background: rgba(0,0,0,0.5);">
@@ -60,7 +89,7 @@
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <header class="hero" style="padding: 100px 0 80px; text-align: center; position: relative;">
+    <header class="hero" style="padding: 120px 0 80px; text-align: center; position: relative;">
         <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 50%, rgba(197, 160, 89, 0.1) 0%, transparent 80%); z-index: -1;"></div>
 
         <div class="container">
