@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
+
     <style>
         /* Botão do WhatsApp */
         .whatsapp-btn {
@@ -37,14 +39,14 @@
             border-radius: 50%;
         }
 
-        /* EFEITO DE BRILHO PULSANTE */
+        /* EFEITO DE BRILHO PULSANTE NA LOGO */
         @keyframes logoGlow {
             0% { filter: drop-shadow(0 0 5px rgba(197, 160, 89, 0.2)); }
             50% { filter: drop-shadow(0 0 15px rgba(197, 160, 89, 0.6)); }
             100% { filter: drop-shadow(0 0 5px rgba(197, 160, 89, 0.2)); }
         }
 
-        /* LOGO HERO - Centralizada e Próxima ao texto */
+        /* LOGO HERO - Centralizada */
         .hero-logo {
             display: block;
             margin: 0 auto 20px auto; 
@@ -71,7 +73,7 @@
 <body>
 
     <script>
-        // Isso obriga o navegador a rolar para o topo (0,0) assim que carrega
+        // Força o navegador a rolar para o topo (0,0) assim que carrega
         if (history.scrollRestoration) {
             history.scrollRestoration = 'manual';
         } else {
@@ -82,7 +84,7 @@
         window.onload = function() {
             setTimeout(function() {
                 window.scrollTo(0, 0);
-            }, 10); // Pequeno delay para garantir
+            }, 10); 
         };
     </script>
 
@@ -104,9 +106,12 @@
             <img src="logo.png" alt="Logo InsideREI" class="hero-logo">
 
             <div style="margin-bottom: 50px; max-width: 900px; margin-left: auto; margin-right: auto; border: 1px solid rgba(197, 160, 89, 0.3); padding: 30px; border-radius: 12px; background: rgba(0,0,0,0.3);">
-                <h3 style="color: #c5a059; font-size: 1.6rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; font-weight: 800; text-shadow: 0 0 10px rgba(197, 160, 89, 0.3);">
-                    PARTICIPE DE SOCIEDADES IMOBILIÁRIAS NOS ESTADOS UNIDOS 🇺🇸
+                
+                <h3 style="color: #c5a059; font-size: 1.6rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; font-weight: 800; text-shadow: 0 0 10px rgba(197, 160, 89, 0.3); display: flex; align-items: center; justify-content: center; flex-wrap: wrap;">
+                    PARTICIPE DE SOCIEDADES IMOBILIÁRIAS NOS ESTADOS UNIDOS 
+                    <span class="flag-icon flag-icon-us" style="font-size: 1.3em; margin-left: 15px; border-radius: 4px; box-shadow: 0 0 10px rgba(0,0,0,0.5);"></span>
                 </h3>
+
                 <p style="color: #e6f1ff; font-size: 1.15rem; line-height: 1.6; margin-bottom: 0;">
                     Oferecemos acesso estruturado a ativos imobiliários no mercado americano, por meio de participação societária em projetos selecionados.<br><br>
                     Uma estratégia voltada à geração de renda e lucratividade em dólar, com contratos, ativos reais e a solidez jurídica e econômica dos Estados Unidos.
