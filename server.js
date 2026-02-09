@@ -76,20 +76,22 @@ app.post('/register', async (req, res) => {
     } catch (error) { res.status(500).json({ error: "Erro ao criar conta" }); }
 });
 
-// --- ROTA DE PAGAMENTO ---
+// --- ROTA DE PAGAMENTO (ATUALIZADA PARA 99 REAIS) ---
 app.post('/process_payment', async (req, res) => {
     try {
         const { email } = req.body;
         let user = await User.findOne({ email });
         
+        // Se o usuário não existir, cria um temporário com valor 99
         if (!user) {
-            user = await User.create({ email, nome: 'Visitante', senha: 'pix', valor: 149 });
+            user = await User.create({ email, nome: 'Visitante', senha: 'pix', valor: 99 });
         }
 
         const preference = new Preference(client);
         const result = await preference.create({
             body: {
-                items: [{ title: 'Workshop InsideREI26', quantity: 1, unit_price: 149, currency_id: 'BRL' }],
+                // 👇 AQUI ESTÁ A MUDANÇA DE PREÇO
+                items: [{ title: 'Workshop InsideREI26', quantity: 1, unit_price: 99, currency_id: 'BRL' }],
                 payer: { email: email },
                 external_reference: user._id.toString(),
                 back_urls: {
@@ -127,7 +129,7 @@ app.post('/webhook', async (req, res) => {
                     'ticket.status': 'approved',
                     'ticket.hash': codigoVIP, // Salva como 001, 002, etc.
                     payment_id: data.id,
-                    valor: 149
+                    valor: 99 // Atualizado aqui também para registro no banco
                 });
                 console.log(`✅ Ingresso gerado: ${codigoVIP} para ID ${info.external_reference}`);
             }
