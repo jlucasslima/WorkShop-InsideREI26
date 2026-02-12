@@ -5,6 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Workshop Presencial | SP</title>
 
+    <script>
+        // 1. Desativa a memória de posição do navegador imediatamente
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
+        // 2. Força o topo instantaneamente
+        window.scrollTo(0, 0);
+        
+        // 3. Garante o topo novamente assim que o HTML básico for lido
+        document.addEventListener('DOMContentLoaded', () => {
+            window.scrollTo(0, 0);
+        });
+    </script>
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-NTEY073DH5"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -19,6 +33,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
 
     <style>
+        /* Bloqueia o scroll suave apenas na carga inicial para evitar o "pulo" visual */
+        html {
+            scroll-behavior: auto !important;
+        }
+        
         /* Botão do WhatsApp */
         .whatsapp-btn {
             position: fixed;
@@ -48,30 +67,10 @@
             border-radius: 50%;
         }
 
-        /* EFEITO DE BRILHO PULSANTE NA LOGO */
-        @keyframes logoGlow {
-            0% { filter: drop-shadow(0 0 5px rgba(197, 160, 89, 0.2)); }
-            50% { filter: drop-shadow(0 0 15px rgba(197, 160, 89, 0.6)); }
-            100% { filter: drop-shadow(0 0 5px rgba(197, 160, 89, 0.2)); }
-        }
-
-        /* LOGO HERO - Centralizada */
-        .hero-logo {
-            display: block;
-            margin: 0 auto 20px auto; 
-            width: 250px; 
-            height: auto;
-            animation: logoGlow 3s infinite ease-in-out;
-        }
-
         /* Ajuste Fino para Celular */
         @media (max-width: 768px) {
             .hero {
-                padding-top: 60px !important;
-            }
-            .hero-logo {
-                width: 180px;
-                margin-bottom: 15px;
+                padding-top: 80px !important; /* Ajustei para dar espaço já que tiramos a logo */
             }
             h1 {
                 font-size: 2rem !important;
@@ -80,22 +79,6 @@
     </style>
 </head>
 <body>
-
-    <script>
-        // Força o navegador a rolar para o topo (0,0) assim que carrega
-        if (history.scrollRestoration) {
-            history.scrollRestoration = 'manual';
-        } else {
-            window.onbeforeunload = function () {
-                window.scrollTo(0, 0);
-            }
-        }
-        window.onload = function() {
-            setTimeout(function() {
-                window.scrollTo(0, 0);
-            }, 10); 
-        };
-    </script>
 
     <div style="position: absolute; top: 20px; left: 20px; z-index: 9999;">
         <a href="login.html" style="color: #c5a059; text-decoration: none; border: 1px solid #c5a059; padding: 8px 12px; border-radius: 4px; font-size: 0.8rem; background: rgba(0,0,0,0.5);">
@@ -112,8 +95,6 @@
 
         <div class="container">
             
-            <img src="logo.png" alt="Logo InsideREI" class="hero-logo">
-
             <div style="margin-bottom: 50px; max-width: 900px; margin-left: auto; margin-right: auto; border: 1px solid rgba(197, 160, 89, 0.3); padding: 30px; border-radius: 12px; background: rgba(0,0,0,0.3);">
                 
                 <h3 style="color: white; font-size: 1.6rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; font-weight: 800; text-shadow: 0 0 15px rgba(197, 160, 89, 0.9), 0 0 35px rgba(197, 160, 89, 0.5); display: flex; align-items: center; justify-content: center; flex-wrap: wrap;">
@@ -343,6 +324,13 @@
                 document.getElementById("countdown").innerHTML = "<h3 style='color:#c5a059'>COMEÇOU!</h3>";
             }
         }, 1000);
+
+        // Habilita o scroll behavior suave de volta após o carregamento inicial
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.documentElement.style.scrollBehavior = 'smooth';
+            }, 100);
+        });
 
         window.addEventListener('scroll', function() {
             const btn = document.getElementById('floatingBtn');
