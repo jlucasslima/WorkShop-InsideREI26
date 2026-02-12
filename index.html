@@ -6,15 +6,16 @@
     <title>Workshop Presencial | SP</title>
 
     <script>
-        // 1. Desativa a memória de posição do navegador imediatamente
+        // 1. Diz ao navegador: "Não lembre onde eu estava"
         if ('scrollRestoration' in history) {
             history.scrollRestoration = 'manual';
         }
-        // 2. Força o topo instantaneamente
-        window.scrollTo(0, 0);
         
-        // 3. Garante o topo novamente assim que o HTML básico for lido
-        document.addEventListener('DOMContentLoaded', () => {
+        // 2. Força o topo imediatamente
+        window.scrollTo(0, 0);
+
+        // 3. Garante o topo novamente assim que a página começar a ser desenhada
+        document.addEventListener("DOMContentLoaded", function() {
             window.scrollTo(0, 0);
         });
     </script>
@@ -33,11 +34,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
 
     <style>
-        /* Bloqueia o scroll suave apenas na carga inicial para evitar o "pulo" visual */
-        html {
-            scroll-behavior: auto !important;
-        }
-        
         /* Botão do WhatsApp */
         .whatsapp-btn {
             position: fixed;
@@ -67,10 +63,31 @@
             border-radius: 50%;
         }
 
+        /* LOGO HERO - Centralizada */
+        .hero-logo {
+            display: block;
+            margin: 0 auto 20px auto; 
+            width: 250px; 
+            height: auto;
+            /* Mantive a animação caso decida voltar com a logo depois */
+            animation: logoGlow 3s infinite ease-in-out; 
+        }
+
+        /* EFEITO DE BRILHO PULSANTE NA LOGO */
+        @keyframes logoGlow {
+            0% { filter: drop-shadow(0 0 5px rgba(197, 160, 89, 0.2)); }
+            50% { filter: drop-shadow(0 0 15px rgba(197, 160, 89, 0.6)); }
+            100% { filter: drop-shadow(0 0 5px rgba(197, 160, 89, 0.2)); }
+        }
+
         /* Ajuste Fino para Celular */
         @media (max-width: 768px) {
             .hero {
-                padding-top: 80px !important; /* Ajustei para dar espaço já que tiramos a logo */
+                padding-top: 80px !important;
+            }
+            .hero-logo {
+                width: 180px;
+                margin-bottom: 15px;
             }
             h1 {
                 font-size: 2rem !important;
@@ -325,11 +342,14 @@
             }
         }, 1000);
 
-        // Habilita o scroll behavior suave de volta após o carregamento inicial
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.documentElement.style.scrollBehavior = 'smooth';
-            }, 100);
+        // Força bruta para o topo no fim do carregamento da página (resolve mobile)
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                window.scrollTo(0, 0);
+            }, 10);
+            setTimeout(function() {
+                window.scrollTo(0, 0);
+            }, 200); // Tenta de novo caso o celular seja lento
         });
 
         window.addEventListener('scroll', function() {
