@@ -31,7 +31,6 @@ body {
 
 a { text-decoration: none; }
 
-/* --- TELA DE LOGIN (INDEX) --- */
 .login-body {
     background: radial-gradient(circle at center, #112240 0%, #020c1b 100%);
     min-height: 100vh;
@@ -94,7 +93,6 @@ button.btn-login {
 
 button.btn-login:hover { background: var(--gold-hover); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(197, 160, 89, 0.2); }
 
-/* --- LANDING PAGE (OFERTA) --- */
 .hero {
     padding: 140px 0 100px;
     background: linear-gradient(to bottom, rgba(2,12,27,0.8), var(--bg-dark)), 
@@ -133,7 +131,6 @@ button.btn-login:hover { background: var(--gold-hover); transform: translateY(-2
     margin: 0 auto 50px;
 }
 
-/* Caixa de Preço */
 .pricing-card {
     background: rgba(255,255,255,0.05);
     border: 1px solid rgba(255,255,255,0.1);
@@ -170,7 +167,6 @@ button.btn-login:hover { background: var(--gold-hover); transform: translateY(-2
 
 .btn-cta:hover { transform: translateY(-5px); background: var(--gold-hover); box-shadow: 0 20px 40px rgba(197, 160, 89, 0.5); }
 
-/* Grid de Palestrantes */
 .section-title { text-align: center; font-size: 2.2rem; margin-bottom: 60px; color: var(--white); }
 .section-title span { color: var(--gold); }
 
@@ -208,7 +204,6 @@ button.btn-login:hover { background: var(--gold-hover); transform: translateY(-2
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
-/* Footer / Benefícios */
 .perks-bar {
     border-top: 1px solid rgba(255,255,255,0.1);
     background: #051024;
@@ -225,7 +220,6 @@ button.btn-login:hover { background: var(--gold-hover); transform: translateY(-2
 
 .perk { color: var(--gold); font-weight: 600; font-size: 0.9rem; letter-spacing: 0.5px; }
 
-/* --- ADMIN PANEL --- */
 .admin-container { padding: 40px 20px; max-width: 1000px; margin: 0 auto; }
 .search-box { width: 100%; padding: 15px; margin-bottom: 20px; font-size: 1rem; }
 table { width: 100%; border-collapse: collapse; margin-top: 20px; background: var(--card-bg); }
@@ -236,20 +230,19 @@ th { color: var(--gold); text-transform: uppercase; font-size: 0.8rem; }
 .btn-toggle { background: transparent; border: 1px solid var(--text-dim); color: var(--text-dim); padding: 5px 10px; cursor: pointer; border-radius: 4px; font-size: 0.8rem;}
 .btn-toggle:hover { border-color: var(--white); color: var(--white); }
 
-/* --- ÁREA DO PIX (DASHBOARD) --- */
 #pix-area {
-    background: #f8f9fa; /* Fundo branco/cinza para contraste */
+    background: #f8f9fa; 
     padding: 20px;
     border-radius: 12px;
     text-align: center;
-    max-width: 320px; /* Limita a largura do cartão */
-    margin: 20px auto; /* Centraliza na tela */
+    max-width: 320px; 
+    margin: 20px auto; 
     border: 1px solid #dee2e6;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
 #pix-area p {
-    color: #333 !important; /* Texto escuro para ler no fundo branco */
+    color: #333 !important; 
     font-weight: 600;
 }
 
@@ -277,11 +270,11 @@ th { color: var(--gold); text-transform: uppercase; font-size: 0.8rem; }
     margin-bottom: 10px;
 }
 
-/* NOVO BOTÃO DE COPIAR */
+
 .btn-copy {
     width: 100%;
     padding: 12px;
-    background: #e6f1ff; /* Azul bem clarinho */
+    background: #e6f1ff; 
     color: #020c1b;
     border: 1px solid #8892b0;
     border-radius: 6px;
@@ -303,7 +296,7 @@ th { color: var(--gold); text-transform: uppercase; font-size: 0.8rem; }
 }
 
 .btn-copy:active { transform: scale(0.98); }
-/* --- AJUSTE PREMIUM DO BOTÃO DE OFERTA --- */
+
 .btn-cta-premium {
     background: linear-gradient(135deg, #c5a059 0%, #f1d292 100%) !important;
     color: #020c1b !important;
@@ -318,7 +311,6 @@ th { color: var(--gold); text-transform: uppercase; font-size: 0.8rem; }
     box-shadow: 0 12px 25px rgba(197, 160, 89, 0.6) !important;
     background: linear-gradient(135deg, #f1d292 0%, #ffffff 100%) !important;
 }
-/* --- ESTILOS EXTRAS PARA A NOVA LANDING PAGE --- */
 .hero-date {
     background: rgba(197, 160, 89, 0.15);
     color: var(--gold);
@@ -379,39 +371,34 @@ th { color: var(--gold); text-transform: uppercase; font-size: 0.8rem; }
 @media (max-width: 768px) {
     .target-audience-grid { grid-template-columns: 1fr; }
 }
-/* --- ESTILO DAS FOTOS DOS PALESTRANTES --- */
 .speaker-photo {
     width: 150px;
     height: 150px;
-    background-color: #112240; /* Cor de fundo enquanto não tem foto */
-    border: 3px solid #c5a059; /* Borda dourada */
-    border-radius: 50%; /* Deixa redonda */
-    margin: 0 auto 25px; /* Centraliza e dá espaço embaixo */
+    background-color: #112240; 
+    border: 3px solid #c5a059; 
+    border-radius: 50%; 
+    margin: 0 auto 25px; 
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 3rem;
     color: #c5a059;
-    overflow: hidden; /* Garante que a imagem não saia do círculo */
+    overflow: hidden; 
     box-shadow: 0 10px 20px rgba(0,0,0,0.3);
     transition: 0.3s;
 }
 
-/* Efeito ao passar o mouse */
 .speaker-card:hover .speaker-photo {
     border-color: #fff;
     transform: scale(1.05);
 }
 
-/* Quando você colocar a imagem real */
 .speaker-photo img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
-/* --- NOVOS ESTILOS INTERATIVOS --- */
 
-/* Contagem Regressiva */
 .countdown-container {
     display: flex;
     justify-content: center;
@@ -429,7 +416,6 @@ th { color: var(--gold); text-transform: uppercase; font-size: 0.8rem; }
 .countdown-number { font-size: 1.5rem; font-weight: 800; color: white; display: block; }
 .countdown-label { font-size: 0.7rem; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; }
 
-/* Acordeão (Conteúdo Expansível) */
 .accordion { margin-top: 20px; }
 .accordion-item {
     background: rgba(255,255,255,0.03);
@@ -457,7 +443,6 @@ th { color: var(--gold); text-transform: uppercase; font-size: 0.8rem; }
 }
 .accordion-content p { padding: 20px; color: #8892b0; font-size: 0.95rem; margin: 0; }
 
-/* Botão Flutuante */
 .floating-cta {
     position: fixed;
     bottom: 20px;
@@ -477,7 +462,6 @@ th { color: var(--gold); text-transform: uppercase; font-size: 0.8rem; }
 .floating-cta.visible { transform: translateY(0); opacity: 1; }
 .floating-cta:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--gold); }
 
-/* Detalhes de Texto Longo */
 .long-text { font-size: 1.1rem; line-height: 1.8; color: #a8b2d1; max-width: 800px; margin: 0 auto; }
 .highlight-box {
     border-left: 4px solid var(--gold);
@@ -487,17 +471,15 @@ th { color: var(--gold); text-transform: uppercase; font-size: 0.8rem; }
     font-style: italic;
     color: #fff;
 }
-/* --- RESPONSIVIDADE (ADAPTAÇÃO PARA CELULAR) --- */
 @media (max-width: 768px) {
     
-    /* 1. Ajusta o Hero (Topo) */
     .hero {
-        padding: 80px 20px 60px !important; /* Menos espaço em cima/baixo */
+        padding: 80px 20px 60px !important; 
         background-position: center top;
     }
 
     .hero h1 {
-        font-size: 2.2rem !important; /* Diminui o título principal */
+        font-size: 2.2rem !important; 
         line-height: 1.2;
     }
 
@@ -506,33 +488,29 @@ th { color: var(--gold); text-transform: uppercase; font-size: 0.8rem; }
         margin-bottom: 20px;
     }
 
-    /* 2. Ajusta as Grades (Palestrantes e Cards) */
-    /* Força os cards a ficarem um embaixo do outro e ocuparem a largura total */
     div[style*="grid-template-columns"] {
         grid-template-columns: 1fr !important; 
         gap: 30px !important;
     }
 
-    /* 3. Ajusta Botões e Caixas */
     .btn-cta, .btn-premium-cta, button.btn-login {
-        width: 100% !important; /* Botão ocupa a largura toda no dedo */
+        width: 100% !important; 
         padding: 18px !important;
         font-size: 1rem !important;
     }
 
     .container {
-        padding: 0 15px !important; /* Margem lateral de segurança para não colar na borda */
+        padding: 0 15px !important; 
     }
 
-    /* 4. Ajusta o Login e Oferta */
     .login-card, .price-box {
-        padding: 30px 20px !important; /* Menos estofamento interno */
+        padding: 30px 20px !important; 
         width: 100% !important;
     }
 
-    /* 5. Ajusta Badges e Contadores */
+   
     .meta-badges {
-        flex-direction: column; /* Empilha as informações de data/hora */
+        flex-direction: column; 
         gap: 10px;
     }
     
@@ -542,11 +520,11 @@ th { color: var(--gold); text-transform: uppercase; font-size: 0.8rem; }
     }
 
     .countdown-container {
-        gap: 8px !important; /* Aproxima os números do contador */
+        gap: 8px !important; 
     }
     
     .countdown-item {
-        min-width: 60px !important; /* Caixinhas menores */
+        min-width: 60px !important;
         padding: 8px !important;
     }
     
@@ -554,10 +532,9 @@ th { color: var(--gold); text-transform: uppercase; font-size: 0.8rem; }
         font-size: 1.2rem !important;
     }
 
-    /* 6. Ajusta a Foto dos Palestrantes */
     .speaker-photo {
         width: 120px !important;
         height: 120px !important;
-        font-size: 2.5rem !important; /* Ícone menor */
+        font-size: 2.5rem !important; 
     }
 }
