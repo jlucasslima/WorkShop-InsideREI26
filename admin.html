@@ -59,7 +59,6 @@
                 const res = await fetch('/admin/users');
                 const todos = await res.json();
                 
-                // FILTRO: Só mostra quem tem status APPROVED
                 cacheUsers = todos.filter(u => u.ticket && u.ticket.status === 'approved');
                 
                 render(cacheUsers);
