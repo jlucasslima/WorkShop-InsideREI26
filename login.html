@@ -51,7 +51,6 @@
             btn.disabled = true;
 
             try {
-                // CORREÇÃO: Removemos o http://localhost:3000 para funcionar no Render
                 const res = await fetch(url, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
