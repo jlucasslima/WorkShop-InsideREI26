@@ -6,15 +6,12 @@
     <title>Workshop Presencial | SP</title>
 
     <script>
-        // 1. Diz ao navegador: "Não lembre onde eu estava"
         if ('scrollRestoration' in history) {
             history.scrollRestoration = 'manual';
         }
         
-        // 2. Força o topo imediatamente
         window.scrollTo(0, 0);
 
-        // 3. Garante o topo novamente assim que a página começar a ser desenhada
         document.addEventListener("DOMContentLoaded", function() {
             window.scrollTo(0, 0);
         });
@@ -63,7 +60,7 @@
             border-radius: 50%;
         }
 
-        /* LOGO HERO - Centralizada */
+        /* LOGO HERO  */
         .hero-logo {
             display: block;
             margin: 0 auto 20px auto; 
@@ -72,20 +69,18 @@
             animation: logoGlow 3s infinite ease-in-out; 
         }
 
-        /* EFEITO DE BRILHO PULSANTE NA LOGO */
         @keyframes logoGlow {
             0% { filter: drop-shadow(0 0 5px rgba(197, 160, 89, 0.2)); }
             50% { filter: drop-shadow(0 0 15px rgba(197, 160, 89, 0.6)); }
             100% { filter: drop-shadow(0 0 5px rgba(197, 160, 89, 0.2)); }
         }
 
-        /* --- AJUSTES ESPECÍFICOS PARA O BOX DE OFERTA NO MOBILE --- */
         .offer-box {
             background: linear-gradient(135deg, #0a192f 0%, #112240 100%);
             border: 1px solid #c5a059;
             max-width: 600px;
             margin: 0 auto;
-            padding: 50px; /* Padding padrão PC */
+            padding: 50px; 
             border-radius: 20px;
             position: relative;
             box-shadow: 0 0 40px rgba(197, 160, 89, 0.15);
@@ -93,16 +88,15 @@
 
         .price-value {
             color: #c5a059;
-            font-size: 2.5rem; /* Tamanho padrão PC */
+            font-size: 2.5rem; 
         }
 
         .price-label {
             color: white;
-            font-size: 1.5rem; /* Tamanho padrão PC */
+            font-size: 1.5rem; 
             font-weight: bold;
         }
 
-        /* Ajuste Fino para Celular */
         @media (max-width: 768px) {
             .hero {
                 padding-top: 80px !important;
@@ -115,15 +109,14 @@
                 font-size: 2rem !important;
             }
             
-            /* Correção da Oferta no Celular */
             .offer-box {
-                padding: 30px 15px !important; /* Reduz drasticamente o padding lateral */
+                padding: 30px 15px !important; 
             }
             .price-value {
-                font-size: 2rem !important; /* Reduz um pouco o preço para caber */
+                font-size: 2rem !important; 
             }
             .price-label {
-                font-size: 1.2rem !important; /* Ajusta o texto "1º lote" */
+                font-size: 1.2rem !important; 
             }
         }
     </style>
@@ -374,14 +367,13 @@
             }
         }, 1000);
 
-        // Força bruta para o topo no fim do carregamento da página (resolve mobile)
         window.addEventListener('load', function() {
             setTimeout(function() {
                 window.scrollTo(0, 0);
             }, 10);
             setTimeout(function() {
                 window.scrollTo(0, 0);
-            }, 200); // Tenta de novo caso o celular seja lento
+            }, 200); 
         });
 
         window.addEventListener('scroll', function() {
